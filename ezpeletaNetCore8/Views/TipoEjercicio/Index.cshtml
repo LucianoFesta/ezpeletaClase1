@@ -1,0 +1,63 @@
+@{
+  ViewData["Title"] = "Tipo de ejercicios";
+}
+
+<div class="text-center">
+  <h2>Listado de tipos de ejercicios</h2>
+</div>
+
+<div class="d-flex justify-content-end botones">
+  <!-- Button trigger modal -->
+
+  <button type="button" onclick="ListaTipoEjercicios()" class="btn btn-primary mb-2">
+    <i class="fas fa-solid fa-list"></i> Listado Ejercicios
+  </button>
+
+
+  <!-- Button trigger modal -->
+  <button type="button" onclick="nuevoRegistro()" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#modalTipoEjercicio">
+    <i class="fas fa-solid fa-plus"></i> Crear tipo de ejercicio
+  </button>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalTipoEjercicio" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="modalTitulo"></h1>
+        <button type="button" onclick="limpiarModal()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="" id="formEjercicio">
+            <div class="mb-3 d-flex flex-column align-items-start">
+              <input type="hidden" id="tipoEjercicioID" value="0"/>
+              <label for="ejercicio" class="form-label">Tipo de Ejercicio: </label>
+              <input type="text" class="form-control" id="ejercicio" name="name" placeholder="Tipo de Ejercicio">
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="limpiarModal()" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa-solid fa-ban"></i> Cancelar</button>
+        <button type="button" onclick="guardarRegistro()" class="btn btn-success"><i class="fas fa-solid fa-plus"></i> Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table class="table table-light table-bordered table-striped table-condensed">
+  <thead>
+    <tr>
+      <th class="thTabla">Listado de Tipo de Ejercicios</th>      
+      <th style="width: 70px"></th>
+      <th style="width: 70px"></th>
+    </tr>
+  </thead>
+  <tbody id="tbody-tipoejercicios">
+  </tbody>
+</table>
+
+@section Scripts{
+  <script src="~/js/tipoEjercicio.js"></script>
+}

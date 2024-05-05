@@ -1,0 +1,222 @@
+body{
+    background-color: rgb(252, 244, 228);
+}
+
+/********************************************************************************
+************************************ INICIO *************************************
+*********************************************************************************/
+
+.divInicio{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-image: url(../images/deportistas.jpg);
+    background-repeat: no-repeat;
+    background-size: cover; 
+    height: 80vh;
+    margin: -16px -73px;
+}
+
+.divInicioText{
+    font-weight: bold;
+    border-radius: 5px;
+    position: absolute;
+    color: aliceblue;
+    background-color: rgba(135, 85, 0, 0.856);
+    width: 70%;
+    margin: auto;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+h1 span{
+    color: rgba(255, 162, 0, 0.95);
+}
+
+/********************************************************************************
+************************************ NAVBAR *************************************
+*********************************************************************************/
+
+.navbar>.container, .navbar>.container-fluid, .navbar>.container-lg, .navbar>.container-md, .navbar>.container-sm, .navbar>.container-xl, .navbar>.container-xxl {
+    background-color: rgba(255, 235, 200, 0.815);
+}
+
+.navbar {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.navBar span{
+    color: rgba(255, 162, 0, 0.95) !important;
+}
+
+.navBar a{
+    color: rgb(114, 114, 114) !important;
+    font-weight: bold;
+    margin-left: 10px;
+    padding-left: 10px;
+    transition: 0.3s all ease-in-out;
+    position: relative;
+    display: inline-block;
+}
+
+.navBar a::after {
+    content: ''; /* Contenido vacío para el pseudo-elemento */
+    position: absolute; /* Posiciona el pseudo-elemento en relación con el enlace */
+    width: 0; /* Inicia con un ancho de 0 */
+    height: 2px; /* Altura del subrayado */
+    background-color: currentColor; /* Color del subrayado igual al color del texto */
+    bottom: 0; /* Alinea el subrayado con la parte inferior del texto */
+    left: 0; /* Alinea el subrayado con la izquierda del texto */
+    transition: width 0.3s ease-in-out;
+   }
+   
+.navBar a:hover::after {
+    width: 100%; /* Expande el ancho al 100% al pasar el mouse */
+   }
+
+.navBar a:hover{
+    color: rgba(255, 162, 0, 0.95) !important;
+}
+
+.navBar a:hover i{
+    color: rgb(114, 114, 114);
+}
+
+.navBar a i{
+    color: rgba(255, 162, 0, 0.95);
+    transition: 0.3s all ease-in-out;
+}
+
+.vidaActiva{
+    color: rgb(114, 114, 114) !important;
+    font-size: 30px;
+    border: none !important;
+    margin: 5px;
+    padding: 5px 8px;
+}
+
+footer{
+    background-color: rgba(255, 235, 200, 0.815) !important;
+    text-align: center;
+}
+
+footer a{
+    font-weight: bold;
+    color: rgb(114, 114, 114) ;
+}
+
+footer a:hover{
+    color: rgba(255, 162, 0, 0.95);
+}
+
+/********************************************************************************
+************************************ LOGIN y REGISTRO **************************************
+*********************************************************************************/
+
+.sectionForm{
+    width: 50vw;
+    background-color: rgba(135, 85, 0, 0.829);
+    border-radius: 5px;
+    padding: 20px;
+    color: rgba(134, 85, 0, 0.936);
+}
+
+.titleLogin{
+    font-size: 20px;
+    text-align: center;
+    margin: 0;
+    color: aliceblue;
+}
+
+.listItemLogin{
+    display: flex;
+}
+
+.listItemLogin p{
+    margin: 0;
+    text-decoration: none;
+    color: aliceblue;
+}
+
+.remember{
+    color: black;
+}
+
+.btnLogin{
+    width: 40% !important;
+    margin: auto;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+    transition: 0.3s all ease-in-out;
+}
+
+a:hover{
+    color: aliceblue;
+}
+
+/********************************************************************************
+********************************** TIPO DE EJERCICIO ****************************
+*********************************************************************************/
+
+.texto{
+    color: rgb(248, 100, 100);
+    text-align: start;
+    font-size: 20px;
+}
+
+label{
+    font-weight: bold;
+}
+
+.botones button{
+    margin-left: 10px;
+    margin-top: 25px;
+}
+
+.modal-header{
+    background-color: rgb(237, 255, 237);
+}
+
+.modal-header h1{
+    color: rgb(43, 136, 0);
+}
+
+h2{
+    text-transform: uppercase;
+    font-style: italic;
+    margin-top: 30px;
+    color: rgb(114, 114, 114)
+}
+
+.thTabla{
+    margin-top: 20px;
+    text-align: center;
+    font-size: 20px;
+    color: rgb(230, 255, 218);
+}
+
+.table>:not(:last-child)>:last-child>* {
+    border-bottom-color: currentColor;
+    background-color: rgb(48, 106, 62);
+}
+
+.tbody{
+    font-weight: bold;
+    text-transform:capitalize;
+    color: rgba(88, 56, 2, 0.95);
+}
+
+.table{
+    margin-top: 10px;
+}
+
+
+/********************************************************************************
+********************************** EJERCICIOS FÍSICOS ***************************
+*********************************************************************************/

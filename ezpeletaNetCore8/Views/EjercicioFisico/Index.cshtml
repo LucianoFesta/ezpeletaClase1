@@ -1,0 +1,96 @@
+@{
+  ViewData["Title"] = "Ejercicios Físicos";
+}
+
+<div class="text-center">
+  <h2>Ejercicios Físicos</h2>
+</div>
+
+<div class="d-flex justify-content-end botones">
+  <!-- Button trigger modal -->
+
+  <button type="button" class="btn btn-primary mb-2" onclick="listadoEjerciciosFisicos()">
+    <i class="fas fa-solid fa-list"></i> Listado Ejercicios Fisicos
+  </button>
+
+
+  <!-- Button trigger modal -->
+  <button type="button" onclick="nuevoRegistro()" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#modalEjercicioFisico">
+    <i class="fas fa-solid fa-plus"></i> Crear ejercicio físico
+  </button>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalEjercicioFisico" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="modalTitulo"></h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row">
+            <input type="hidden" id="ejercicioFisicoID" value="0"/>
+            <div class="mb-3 col-12">
+              <label for="TipoEjercicioID" class="form-label">Tipo de Ejercicio</label>
+              @Html.DropDownList("TipoEjercicioID", null, htmlAttributes: new { @class = "form-control" })
+            </div>
+
+            <div class="mb-3 col-6">
+              <label for="FechaInicio" class="form-label">Inicio</label>
+              <input type="datetime-local" id="FechaInicio" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm")">
+            </div>
+
+            <div class="mb-3 col-6">
+              <label for="EstadoEmocionalInicio" class="form-label">Estado Emocional Inicio</label>
+              @Html.DropDownList("EstadoEmocionalInicio", null, htmlAttributes: new { @class = "form-control" })
+            </div>
+
+            <div class="mb-3 col-6">
+              <label for="FechaFin" class="form-label">Fin</label>
+              <input type="datetime-local" id="FechaFin" class="form-control"
+                value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm")" />
+            </div>
+
+            <div class="mb-3 col-6">
+              <label for="EstadoEmocionalFin" class="form-label">Estado Emocional Final</label>
+              @Html.DropDownList("EstadoEmocionalFin", null, htmlAttributes: new { @class = "form-control" })
+            </div>
+
+
+            <div class="mb-3 col-12">
+              <label for="Observaciones" class="form-label">Observaciones</label>
+              <textarea class="form-control" id="Observaciones" rows="3"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="limpiarModal()" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa-solid fa-ban"></i> Cancelar</button>
+        <button type="button" onclick="guardarRegistro()" class="btn btn-success"><i class="fas fa-solid fa-plus"></i> Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<table class="table table-light table-bordered table-striped table-condensed">
+  <thead>
+    <tr>
+      <th class="thTabla">Listado de Ejercicios Físicos</th>
+      <th class="thTabla">Fecha Inicio</th>
+      <th class="thTabla">Fecha Fin</th>
+      <th style="width: 70px"></th>
+      <th style="width: 70px"></th>
+    </tr>
+  </thead>
+  <tbody id="tbody-ejerciciosFisicos">
+  </tbody>
+</table>
+
+@section Scripts{
+  <script src="~/js/ejercicioFisico.js"></script>
+}
