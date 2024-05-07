@@ -22,7 +22,7 @@ public class TipoEjercicioController : Controller
 
     public JsonResult ListadoTipoEjercicios(int? id)
     {
-        var tipoDeEjercicios = _context.TipoEjercicios.ToList();
+        var tipoDeEjercicios = _context.TipoEjercicios.Where(t => t.Eliminado == false).ToList();
 
         if (id.HasValue){
           tipoDeEjercicios = tipoDeEjercicios.Where(t => t.TipoEjercicioID == id).ToList();
@@ -89,7 +89,8 @@ public class TipoEjercicioController : Controller
     {
         var tipoEjercicio = _context.TipoEjercicios.Find(tipoEjercicioID);
 
-        _context.Remove(tipoEjercicio);
+        //_context.Remove(tipoEjercicio);
+        tipoEjercicio.Eliminado = true;
         _context.SaveChanges();
 
         return Json(true);

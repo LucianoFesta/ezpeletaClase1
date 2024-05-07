@@ -64,7 +64,7 @@ public class EjercicioFisicoController : Controller
             ejerciciosFisicos = ejerciciosFisicos.Where(e => e.EjercicioFisicoID == id).ToList();
         
         }else{
-            var newListEjerciciosFisicos = ejerciciosFisicos.Select(e => new
+            var newListEjerciciosFisicos = ejerciciosFisicos.Select(e => new EjercicioFisicoMostrar()
             {
                 EjercicioFisicoID = e.EjercicioFisicoID,
                 Inicio = e.Inicio,
@@ -73,6 +73,7 @@ public class EjercicioFisicoController : Controller
                 EstadoEmocionalFin = e.EstadoEmocionalFin,
                 Observaciones = e.Observaciones,
                 NombreTipoEjercicio = e.TipoEjercicio.Nombre
+                
             }).ToList();
 
             return Json(newListEjerciciosFisicos);

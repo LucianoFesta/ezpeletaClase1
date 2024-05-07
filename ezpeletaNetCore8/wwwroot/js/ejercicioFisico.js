@@ -59,15 +59,14 @@ function nuevoRegistro(){
 
 function guardarRegistro(){
 
-    var ejercicioFisicoID = document.getElementById("EjercicioFisicoID").value;
+    var ejercicioFisicoID = document.getElementById("ejercicioFisicoID").value;
     var tipoEjercicioID = document.getElementById("TipoEjercicioID").value;
     var inicio = document.getElementById("FechaInicio").value;
     var estadoEmocionalInicio = document.getElementById("EstadoEmocionalInicio").value;
     var estadoEmocionalFin = document.getElementById("EstadoEmocionalFin").value;
     var fin = document.getElementById("FechaFin").value;
     var observaciones = document.getElementById("Observaciones").value;
-    console.log(tipoEjercicioID);
-    console.log(ejercicioFisicoID);
+
     $.ajax({
         url: "../../EjercicioFisico/SaveEjercicio",
         data: { ejercicioFisicoID, tipoEjercicioID, inicio, estadoEmocionalInicio, estadoEmocionalFin, fin, observaciones },
@@ -99,10 +98,9 @@ function eliminarRegistro(ejercicioFisicoID){
 
 
 function abrirModalEditar(ejercicioFisicoID){
-    console.log(ejercicioFisicoID)
     $.ajax({
         url: '../../EjercicioFisico/ListadoEjerciciosFisicos',
-        data: { id : ejercicioFisicoID },
+        data: { ejercicioFisicoID : ejercicioFisicoID },
         type: 'POST',
         dataType: 'json',
         success: function(listadoEjerciciosFisicos){
