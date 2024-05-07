@@ -63,23 +63,20 @@ public class EjercicioFisicoController : Controller
         if (id.HasValue){   
             ejerciciosFisicos = ejerciciosFisicos.Where(e => e.EjercicioFisicoID == id).ToList();
         
-        }else{
-            var newListEjerciciosFisicos = ejerciciosFisicos.Select(e => new EjercicioFisicoMostrar()
-            {
-                EjercicioFisicoID = e.EjercicioFisicoID,
-                Inicio = e.Inicio,
-                Fin = e.Fin,
-                EstadoEmocionalInicio = e.EstadoEmocionalInicio,
-                EstadoEmocionalFin = e.EstadoEmocionalFin,
-                Observaciones = e.Observaciones,
-                NombreTipoEjercicio = e.TipoEjercicio.Nombre
-                
-            }).ToList();
-
-            return Json(newListEjerciciosFisicos);
         }
+        var newListEjerciciosFisicos = ejerciciosFisicos.Select(e => new EjercicioFisicoMostrar()
+        {
+            EjercicioFisicoID = e.EjercicioFisicoID,
+            Inicio = e.Inicio,
+            Fin = e.Fin,
+            EstadoEmocionalInicio = e.EstadoEmocionalInicio,
+            EstadoEmocionalFin = e.EstadoEmocionalFin,
+            Observaciones = e.Observaciones,
+            NombreTipoEjercicio = e.TipoEjercicio.Nombre
+            
+        }).ToList();
 
-        return Json(true);
+        return Json(newListEjerciciosFisicos);
     }
 
     public JsonResult SaveEjercicio(int ejercicioFisicoID, int tipoEjercicioID, DateTime inicio, EstadoEmocional estadoEmocionalInicio, EstadoEmocional estadoEmocionalFin, DateTime fin, string observaciones){

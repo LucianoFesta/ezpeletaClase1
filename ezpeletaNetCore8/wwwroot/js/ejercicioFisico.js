@@ -100,13 +100,13 @@ function eliminarRegistro(ejercicioFisicoID){
 function abrirModalEditar(ejercicioFisicoID){
     $.ajax({
         url: '../../EjercicioFisico/ListadoEjerciciosFisicos',
-        data: { ejercicioFisicoID : ejercicioFisicoID },
+        data: { id : ejercicioFisicoID },
         type: 'POST',
         dataType: 'json',
         success: function(listadoEjerciciosFisicos){
             let ejercicioAEditar = listadoEjerciciosFisicos[0];
             
-            document.getElementById('#ejercicioFisicoID').value = ejercicioFisicoID;
+            document.getElementById('ejercicioFisicoID').value = ejercicioFisicoID;
             $('#modalTitulo').text('Editar ejercicio físico');
 
             document.getElementById("TipoEjercicioID").value = ejercicioAEditar.ejercicioFisicoID;
