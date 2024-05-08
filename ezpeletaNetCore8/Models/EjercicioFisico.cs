@@ -24,8 +24,10 @@ namespace ezpeletaNetCore8zpeletaNetCore8.Models
         public int TipoEjercicioID { get; set; }
         public DateTime Inicio { get; set; }
         public DateTime Fin { get; set; }
-        public EstadoEmocional EstadoEmocionalInicio {get; set; } 
-        public EstadoEmocional EstadoEmocionalFin {get; set; } 
+        public string EstadoEmocionalInicio {get; set; } 
+        public string EstadoEmocionalFin {get; set; } 
+        public EstadoEmocional EstadoEmocionalInicioInt {get; set; } 
+        public EstadoEmocional EstadoEmocionalFinInt {get; set; } 
         public string? Observaciones {get; set; }
         public string NombreTipoEjercicio { get; set; }
 

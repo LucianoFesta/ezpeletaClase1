@@ -4,9 +4,11 @@ using ezpeletaNetCore8.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ezpeletaNetCore8zpeletaNetCore8.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ezpeletaNetCore8.Controllers;
 
+[Authorize]
 public class EjercicioFisicoController : Controller
 {
     private ApplicationDbContext _context; //inicializamos el contexto
@@ -69,8 +71,10 @@ public class EjercicioFisicoController : Controller
             EjercicioFisicoID = e.EjercicioFisicoID,
             Inicio = e.Inicio,
             Fin = e.Fin,
-            EstadoEmocionalInicio = e.EstadoEmocionalInicio,
-            EstadoEmocionalFin = e.EstadoEmocionalFin,
+            EstadoEmocionalInicio = e.EstadoEmocionalInicio.ToString(),
+            EstadoEmocionalFin = e.EstadoEmocionalFin.ToString(),
+            EstadoEmocionalInicioInt = e.EstadoEmocionalInicio,
+            EstadoEmocionalFinInt = e.EstadoEmocionalFin,
             Observaciones = e.Observaciones,
             NombreTipoEjercicio = e.TipoEjercicio.Nombre
             

@@ -2,9 +2,11 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ezpeletaNetCore8.Models;
 using ezpeletaNetCore8.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ezpeletaNetCore8.Controllers;
 
+[Authorize]
 public class TipoEjercicioController : Controller
 {
     private ApplicationDbContext _context; //inicializamos el contexto
@@ -51,8 +53,14 @@ public class TipoEjercicioController : Controller
                     _context.Add(tipoEjercicio);
                     _context.SaveChanges();
 
+                }else if(existsNombre > 0){
+                    
+                    var tipoExistente = _context.TipoEjercicios.Where(t => t.Nombre == nombre && t.Eliminado == true).SingleOrDefault();
+                    tipoExistente.Eliminado = false;
+
+                    _context.SaveChanges();
                 }else{
-                    resultado = "Ya existe un registro con la misma descripción";
+                    resultado = "Ya existe un tipo con dicho nombre.";
                 }
 
             }else{

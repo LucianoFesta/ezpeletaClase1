@@ -38,7 +38,12 @@ function ListaTipoEjercicios(){
             });
         },
         error: function(xhr, status){
-            alert('Ocurrió un error a la hora de mostrar el listado.')
+            Swal.fire({
+                title: 'Ups, existe un inconveniente:',
+                text: 'Ocurrió un problema a la hora de mostrar el listado.',
+                icon: 'warning',
+                confirmButtonText: 'Volver a intentarlo'
+            });
         }
     })
 }
@@ -79,16 +84,24 @@ function guardarRegistro(){
         type: 'POST',
         dataType: 'json',
         success: function (result){
-
             if(result != ""){
-                alert(result);
+                Swal.fire({
+                    title: 'Ups, existe un inconveniente:',
+                    text: result,
+                    icon: 'warning',
+                    confirmButtonText: 'Volver a intentarlo'
+                });
             }
 
             ListaTipoEjercicios();
-
         },
         error: function(xhr, status){
-            alert('Ocurrió un error a la hora de guardar el tipo de actividad.')
+            Swal.fire({
+                title: 'Ups, existe un inconveniente:',
+                text: 'Ocurrió un error a la hora de guardar el tipo de actividad.',
+                icon: 'warning',
+                confirmButtonText: 'Volver a intentarlo'
+            });
         }
     })
 }
@@ -121,23 +134,46 @@ function abrirModalEditar(tipoEjercicioID){
         },
 
         error: function(xhr,status){
-            console.log("Disculpe, ocurrio un problema en la edición del tipo de ejercicio.");
+            Swal.fire({
+                title: 'Ups, existe un inconveniente:',
+                text: "Disculpe, ocurrio un problema en la edición del tipo de ejercicio.",
+                icon: 'warning',
+                confirmButtonText: 'Volver a intentarlo'
+            });
         }
     })
 }
 
-function eliminarRegistro(tipoEjercicioID){
-    $.ajax({
-        url: '../../TipoEjercicio/EliminarTipoEjercicio',
-        data: { tipoEjercicioID: tipoEjercicioID },
-        type: 'POST',
-        dataType: 'json',
-        success: function(result){
-            ListaTipoEjercicios();
-        },
-        error: function(xhr,status){
-            console.log('Disculpe, ocurrió un error al intentar eliminar el elemento.')
-        }
-    })
+function eliminarRegistro(tipoEjercicioID) {
 
+    Swal.fire({
+        title: "¿Desea eliminar el tipo de ejercicio?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar"
+
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '../../TipoEjercicio/EliminarTipoEjercicio',
+                data: { tipoEjercicioID: tipoEjercicioID },
+                type: 'POST',
+                dataType: 'json',
+                success: function(result) {
+                    ListaTipoEjercicios(); // Actualiza la lista de tipos de ejercicio
+                },
+                error: function(xhr, status) {
+                    Swal.fire({
+                        title: 'Ups, existe un inconveniente:',
+                        text: "Disculpe, ocurrio un problema en la edición del tipo de ejercicio.",
+                        icon: 'warning',
+                        confirmButtonText: 'Volver a intentarlo'
+                    });
+                }
+            });
+        }
+    });
 }

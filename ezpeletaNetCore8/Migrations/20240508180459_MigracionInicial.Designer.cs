@@ -12,8 +12,8 @@ using ezpeletaNetCore8.Data;
 namespace ezpeletaNetCore8.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240404231116_MigracionInicial1")]
-    partial class MigracionInicial1
+    [Migration("20240508180459_MigracionInicial")]
+    partial class MigracionInicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -227,6 +227,58 @@ namespace ezpeletaNetCore8.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ezpeletaNetCore8.Models.TipoEjercicio", b =>
+                {
+                    b.Property<int>("TipoEjercicioID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TipoEjercicioID"));
+
+                    b.Property<bool>("Eliminado")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TipoEjercicioID");
+
+                    b.ToTable("TipoEjercicios");
+                });
+
+            modelBuilder.Entity("ezpeletaNetCore8zpeletaNetCore8.Models.EjercicioFisico", b =>
+                {
+                    b.Property<int>("EjercicioFisicoID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EjercicioFisicoID"));
+
+                    b.Property<int>("EstadoEmocionalFin")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EstadoEmocionalInicio")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Fin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Inicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Observaciones")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TipoEjercicioID")
+                        .HasColumnType("int");
+
+                    b.HasKey("EjercicioFisicoID");
+
+                    b.HasIndex("TipoEjercicioID");
+
+                    b.ToTable("EjerciciosFisicos");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -276,6 +328,22 @@ namespace ezpeletaNetCore8.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ezpeletaNetCore8zpeletaNetCore8.Models.EjercicioFisico", b =>
+                {
+                    b.HasOne("ezpeletaNetCore8.Models.TipoEjercicio", "TipoEjercicio")
+                        .WithMany("EjercicioFisicos")
+                        .HasForeignKey("TipoEjercicioID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TipoEjercicio");
+                });
+
+            modelBuilder.Entity("ezpeletaNetCore8.Models.TipoEjercicio", b =>
+                {
+                    b.Navigation("EjercicioFisicos");
                 });
 #pragma warning restore 612, 618
         }

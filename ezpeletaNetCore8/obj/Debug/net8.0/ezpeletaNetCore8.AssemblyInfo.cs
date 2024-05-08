@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ezpeletaNetCore8")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e65c5330b7fe149b164510449499f408d927c58b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d416d1bf40f00003a3c6fc2e01554643ffb05abd")]
 [assembly: System.Reflection.AssemblyProductAttribute("ezpeletaNetCore8")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ezpeletaNetCore8")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
