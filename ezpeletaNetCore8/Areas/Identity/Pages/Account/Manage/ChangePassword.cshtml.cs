@@ -54,7 +54,7 @@ namespace ezpeletaNetCore8.Areas.Identity.Pages.Account.Manage
             /// </summary>
             [Required]
             [DataType(DataType.Password)]
-            [Display(Name = "Current password")]
+            [Display(Name = "Contraseña Actual")]
             public string OldPassword { get; set; }
 
             /// <summary>
@@ -64,7 +64,7 @@ namespace ezpeletaNetCore8.Areas.Identity.Pages.Account.Manage
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "New password")]
+            [Display(Name = "Nueva Contraseña")]
             public string NewPassword { get; set; }
 
             /// <summary>
@@ -72,8 +72,8 @@ namespace ezpeletaNetCore8.Areas.Identity.Pages.Account.Manage
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm new password")]
-            [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+            [Display(Name = "Confirmá Nueva Contraseña")]
+            [Compare("NewPassword", ErrorMessage = "La nueva contraseña no coincide con la confirmación de contraseña.")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -119,7 +119,7 @@ namespace ezpeletaNetCore8.Areas.Identity.Pages.Account.Manage
 
             await _signInManager.RefreshSignInAsync(user);
             _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
+            StatusMessage = "Su contraseña se cambió correctamente.";
 
             return RedirectToPage();
         }

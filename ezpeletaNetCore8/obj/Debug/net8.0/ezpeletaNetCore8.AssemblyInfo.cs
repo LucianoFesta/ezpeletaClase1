@@ -10,12 +10,11 @@
 using System;
 using System.Reflection;
 
-[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("aspnet-ezpeletaNetCore8-ce8fb02d-0198-4cce-a135-c611ccfc1034")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("ezpeletaNetCore8")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c5c5c8be27aadd5c60c2319577343f312467ae3d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+135cceb697aa2ed1affab334f4d87461a9a40d99")]
 [assembly: System.Reflection.AssemblyProductAttribute("ezpeletaNetCore8")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ezpeletaNetCore8")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

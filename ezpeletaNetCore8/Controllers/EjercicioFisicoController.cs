@@ -85,7 +85,15 @@ public class EjercicioFisicoController : Controller
 
     public JsonResult SaveEjercicio(int ejercicioFisicoID, int tipoEjercicioID, DateTime inicio, EstadoEmocional estadoEmocionalInicio, EstadoEmocional estadoEmocionalFin, DateTime fin, string observaciones){
         
-        if(ejercicioFisicoID == 0){
+        var resultado = "";
+
+        if(tipoEjercicioID <= 0 || inicio == DateTime.MinValue || estadoEmocionalInicio == 0 || estadoEmocionalFin == 0 || fin == DateTime.MinValue || string.IsNullOrEmpty(observaciones))
+        {
+            resultado = "Por favor, completa todos los campos.";
+
+        }else{
+
+            if(ejercicioFisicoID == 0){
 
             var newEjercicio = new EjercicioFisico
             {
@@ -100,21 +108,27 @@ public class EjercicioFisicoController : Controller
             _context.EjerciciosFisicos.Add(newEjercicio);
             _context.SaveChanges();
 
-        }else{
+            return Json(true);
 
-            var ejercicioFisicoEditar = _context.EjerciciosFisicos.Where(e => e.EjercicioFisicoID == ejercicioFisicoID).SingleOrDefault();
+            }else{
 
-            ejercicioFisicoEditar.Inicio = inicio;
-            ejercicioFisicoEditar.Fin = fin;
-            ejercicioFisicoEditar.TipoEjercicioID = tipoEjercicioID;
-            ejercicioFisicoEditar.EstadoEmocionalFin = estadoEmocionalFin;
-            ejercicioFisicoEditar.EstadoEmocionalInicio = estadoEmocionalInicio;
-            ejercicioFisicoEditar.Observaciones = observaciones;
+                var ejercicioFisicoEditar = _context.EjerciciosFisicos.Where(e => e.EjercicioFisicoID == ejercicioFisicoID).SingleOrDefault();
 
-            _context.SaveChanges();
+                ejercicioFisicoEditar.Inicio = inicio;
+                ejercicioFisicoEditar.Fin = fin;
+                ejercicioFisicoEditar.TipoEjercicioID = tipoEjercicioID;
+                ejercicioFisicoEditar.EstadoEmocionalFin = estadoEmocionalFin;
+                ejercicioFisicoEditar.EstadoEmocionalInicio = estadoEmocionalInicio;
+                ejercicioFisicoEditar.Observaciones = observaciones;
+
+                _context.SaveChanges();
+
+                return Json(true);
+            }
+
         }
 
-        return Json(true);
+        return Json(resultado);
     }
 
 

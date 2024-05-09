@@ -42,6 +42,7 @@ function listadoEjerciciosFisicos(){
                         <td class="tbody">${fechaFinFormateada} hs.</td>
                         <td class="tbody">${ejercicio.estadoEmocionalInicio}</td>
                         <td class="tbody">${ejercicio.estadoEmocionalFin}</td>
+                        <td class="tbody">${ejercicio.observaciones}</td>
                         <td class="text-center">
                             <button type="button" class="btn btn-success mb-2" onclick="abrirModalEditar(${ejercicio.ejercicioFisicoID})">
                                 Editar
@@ -97,7 +98,19 @@ function guardarRegistro(){
         type: 'POST',
         dataType: 'json',
         success: function(result){
-            listadoEjerciciosFisicos();
+
+            if(result == true){
+                listadoEjerciciosFisicos();
+
+            }else{
+                Swal.fire({
+                    title: 'Ups, existe un inconveniente:',
+                    text: 'Por favor, completa todos los campos para poder crear un ejercicio.',
+                    icon: 'warning',
+                    confirmButtonText: 'Volver a intentarlo'
+                });
+            }
+
         },
         error: function(hxr,status){
             Swal.fire({
