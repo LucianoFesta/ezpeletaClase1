@@ -59,6 +59,7 @@ public class TipoEjercicioController : Controller
                     tipoExistente.Eliminado = false;
 
                     _context.SaveChanges();
+                    
                 }else{
                     resultado = "Ya existe un tipo con dicho nombre.";
                 }

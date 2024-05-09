@@ -48,7 +48,7 @@ h1 span{
     padding-bottom: 0;
 }
 
-.navBar span{
+.navBar span, svg{
     color: rgba(255, 162, 0, 0.95) !important;
 }
 
@@ -62,7 +62,14 @@ h1 span{
     display: inline-block;
 }
 
-.navBar a::after, .logout::after {
+svg{
+    font-weight: bold;
+    transition: 0.3s all ease-in-out;
+    position: relative;
+    display: inline-block;
+}
+
+.navBar a::after, .logout::after, svg::after {
     content: ''; /* Contenido vacío para el pseudo-elemento */
     position: absolute; /* Posiciona el pseudo-elemento en relación con el enlace */
     width: 0; /* Inicia con un ancho de 0 */
@@ -71,21 +78,21 @@ h1 span{
     bottom: 0; /* Alinea el subrayado con la parte inferior del texto */
     left: 0; /* Alinea el subrayado con la izquierda del texto */
     transition: width 0.3s ease-in-out;
-   }
+}
    
 .navBar a:hover::after, .logout:hover::after {
     width: 100%; /* Expande el ancho al 100% al pasar el mouse */
    }
 
-.navBar a:hover, .logout:hover{
+.navBar a:hover, .logout:hover, svg:hover{
     color: rgba(255, 162, 0, 0.95) !important;
 }
 
-.navBar a:hover i{
+.navBar a:hover i, .navBar a:hover svg{
     color: rgb(114, 114, 114);
 }
 
-.navBar a i{
+.navBar a i, .navBar a svg{
     color: rgba(255, 162, 0, 0.95);
     transition: 0.3s all ease-in-out;
 }
@@ -147,6 +154,11 @@ footer a:hover{
 
 .btnLogin{
     width: 40% !important;
+    margin: auto;
+}
+
+.btnResetPassword{
+    width: 60% !important;
     margin: auto;
 }
 

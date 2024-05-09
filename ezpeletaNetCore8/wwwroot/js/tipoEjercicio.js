@@ -163,7 +163,7 @@ function eliminarRegistro(tipoEjercicioID) {
                 type: 'POST',
                 dataType: 'json',
                 success: function(result) {
-                    ListaTipoEjercicios(); // Actualiza la lista de tipos de ejercicio
+                    ListaTipoEjercicios();
                 },
                 error: function(xhr, status) {
                     Swal.fire({

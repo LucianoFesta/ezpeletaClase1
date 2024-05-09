@@ -6,11 +6,11 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hola @User.Identity?.Name!</a>
+        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><i class="bi bi-person-fill"></i> Hola @User.Identity?.Name!</a>
     </li>
     <li class="nav-item">
         <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark logout"><i class="fas fa-solid fa-circle-xmark"></i> Salir</button>
+            <button  type="submit" class="nav-link btn btn-link text-dark logout"><i class="bi bi-x-circle-fill"></i> Salir</button>
         </form>
     </li>
 }
@@ -20,7 +20,7 @@ else
         <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register"><i class="fas fa-solid fa-id-card"></i> Registrarse</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login"><i class="fas fa-solid fa-right-to-bracket"></i> Iniciar Sesión</a>
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</a>
     </li>
 }
 </ul>

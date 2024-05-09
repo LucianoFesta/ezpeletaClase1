@@ -90,7 +90,7 @@ function guardarRegistro(){
     var estadoEmocionalFin = document.getElementById("EstadoEmocionalFin").value;
     var fin = document.getElementById("FechaFin").value;
     var observaciones = document.getElementById("Observaciones").value;
-
+    
     $.ajax({
         url: "../../EjercicioFisico/SaveEjercicio",
         data: { ejercicioFisicoID, tipoEjercicioID, inicio, estadoEmocionalInicio, estadoEmocionalFin, fin, observaciones },
