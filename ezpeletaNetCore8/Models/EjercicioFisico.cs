@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ezpeletaNetCore8.Models;
 
-namespace ezpeletaNetCore8zpeletaNetCore8.Models
+namespace ezpeletaNetCore8.Models
 {
     public class EjercicioFisico
     {

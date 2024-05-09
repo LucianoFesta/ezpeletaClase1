@@ -3,7 +3,6 @@ using ezpeletaNetCore8.Models;
 using ezpeletaNetCore8.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using ezpeletaNetCore8zpeletaNetCore8.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace ezpeletaNetCore8.Controllers;
