@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ezpeletaNetCore8.Models;
 using ezpeletaNetCore8.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace ezpeletaNetCore8.Controllers;
 
@@ -97,12 +98,18 @@ public class TipoEjercicioController : Controller
     public JsonResult EliminarTipoEjercicio(int tipoEjercicioID)
     {
         var tipoEjercicio = _context.TipoEjercicios.Find(tipoEjercicioID);
+        var listaEjerciciosFisicos = _context.EjerciciosFisicos.Include(e => e.TipoEjercicio).ToList();
 
-        //_context.Remove(tipoEjercicio);
-        tipoEjercicio.Eliminado = true;
-        _context.SaveChanges();
+        var existeEjercicio = listaEjerciciosFisicos.Where(e => e.TipoEjercicioID == tipoEjercicioID).SingleOrDefault();
+
+        if(existeEjercicio == null){
+            tipoEjercicio.Eliminado = true;
+            _context.SaveChanges();
+
+        }else{
+            return Json(false);
+        }
 
         return Json(true);
-
     }
 }

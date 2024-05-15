@@ -99,16 +99,30 @@ function guardarRegistro(){
         dataType: 'json',
         success: function(result){
 
-            if(result == true){
-                listadoEjerciciosFisicos();
+            var dateInicio = new Date(inicio);
+            var dateFin = new Date(fin);
+            var validacionFechas = dateInicio <= dateFin;
 
-            }else{
+            if(validacionFechas == false){
                 Swal.fire({
                     title: 'Ups, existe un inconveniente:',
-                    text: 'Por favor, completa todos los campos para poder crear un ejercicio.',
+                    text: 'La fecha de inicio del ejercicio no puede ser mayor o igual a la fecha de finalización.',
                     icon: 'warning',
                     confirmButtonText: 'Volver a intentarlo'
                 });
+
+            }else{
+                if(result == true){
+                    listadoEjerciciosFisicos();
+    
+                }else{
+                    Swal.fire({
+                        title: 'Ups, existe un inconveniente:',
+                        text: 'Por favor, completa todos los campos para poder crear un ejercicio.',
+                        icon: 'warning',
+                        confirmButtonText: 'Volver a intentarlo'
+                    });
+                }
             }
 
         },
