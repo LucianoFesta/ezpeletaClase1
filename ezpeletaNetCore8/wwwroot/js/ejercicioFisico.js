@@ -99,18 +99,14 @@ function guardarRegistro(){
         dataType: 'json',
         success: function(result){
 
-            var dateInicio = new Date(inicio);
-            var dateFin = new Date(fin);
-            var validacionFechas = dateInicio <= dateFin;
-
-            if(validacionFechas == false){
+            if(result.success == false){
                 Swal.fire({
                     title: 'Ups, existe un inconveniente:',
-                    text: 'La fecha de inicio del ejercicio no puede ser mayor o igual a la fecha de finalización.',
+                    text: result.message,
                     icon: 'warning',
                     confirmButtonText: 'Volver a intentarlo'
                 });
-
+            
             }else{
                 if(result == true){
                     listadoEjerciciosFisicos();

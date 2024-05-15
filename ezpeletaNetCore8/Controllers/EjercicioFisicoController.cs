@@ -84,31 +84,37 @@ public class EjercicioFisicoController : Controller
     }
 
     public JsonResult SaveEjercicio(int ejercicioFisicoID, int tipoEjercicioID, DateTime inicio, EstadoEmocional estadoEmocionalInicio, EstadoEmocional estadoEmocionalFin, DateTime fin, string observaciones){
-        
-        var resultado = "";
 
         if(tipoEjercicioID <= 0 || inicio == DateTime.MinValue || estadoEmocionalInicio == 0 || estadoEmocionalFin == 0 || fin == DateTime.MinValue || string.IsNullOrEmpty(observaciones))
         {
-            resultado = "Por favor, completa todos los campos.";
+            return Json(new { success = false, message = "Por favor, completa todos los campos para poder crear un ejercicio físico." });
 
         }else{
 
             if(ejercicioFisicoID == 0){
+                var validacionFechas = inicio <= fin;
 
-            var newEjercicio = new EjercicioFisico
-            {
-                TipoEjercicioID = tipoEjercicioID,
-                Inicio = inicio,
-                EstadoEmocionalInicio = (EstadoEmocional)estadoEmocionalInicio,
-                EstadoEmocionalFin = (EstadoEmocional)estadoEmocionalFin,
-                Fin = fin,
-                Observaciones = observaciones
-            };
+                if(validacionFechas == false){
+                    return Json(new { success = false, message = "La fecha de inicio no debe ser igual o posterior a la fecha de fin." });
+                
+                }else{
 
-            _context.EjerciciosFisicos.Add(newEjercicio);
-            _context.SaveChanges();
+                    var newEjercicio = new EjercicioFisico
+                    {
+                        TipoEjercicioID = tipoEjercicioID,
+                        Inicio = inicio,
+                        EstadoEmocionalInicio = (EstadoEmocional)estadoEmocionalInicio,
+                        EstadoEmocionalFin = (EstadoEmocional)estadoEmocionalFin,
+                        Fin = fin,
+                        Observaciones = observaciones
+                    };
 
-            return Json(true);
+                    _context.EjerciciosFisicos.Add(newEjercicio);
+                    _context.SaveChanges();
+
+                    return Json(true);
+                }
+
 
             }else{
 
@@ -125,10 +131,7 @@ public class EjercicioFisicoController : Controller
 
                 return Json(true);
             }
-
         }
-
-        return Json(resultado);
     }
 
 
