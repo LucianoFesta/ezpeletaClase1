@@ -74,7 +74,6 @@ public class TipoEjercicioController : Controller
                     var tipoEjecicioExistente = _context.TipoEjercicios.Where(t => t.Nombre == nombre && t.TipoEjercicioID != tipoEjercicioID).Count();
 
                     if(tipoEjecicioExistente == 0){
-
                         tipoEjercicioEditar.Nombre = nombre;
                         _context.SaveChanges();
 
@@ -86,7 +85,6 @@ public class TipoEjercicioController : Controller
             }
 
         }else{
-
             resultado = "Debe ingresar un nombre.";
 
         }
@@ -94,22 +92,24 @@ public class TipoEjercicioController : Controller
         return Json(resultado);
     }
 
-
     public JsonResult EliminarTipoEjercicio(int tipoEjercicioID)
     {
         var tipoEjercicio = _context.TipoEjercicios.Find(tipoEjercicioID);
         var listaEjerciciosFisicos = _context.EjerciciosFisicos.Include(e => e.TipoEjercicio).ToList();
 
-        var existeEjercicio = listaEjerciciosFisicos.Where(e => e.TipoEjercicioID == tipoEjercicioID).SingleOrDefault();
+        var existeEjercicio = listaEjerciciosFisicos.Any(e => e.TipoEjercicioID == tipoEjercicioID);
 
-        if(existeEjercicio == null){
+        if (!existeEjercicio)
+        {
             tipoEjercicio.Eliminado = true;
             _context.SaveChanges();
 
-        }else{
-            return Json(false);
+            return Json(new { success = true });
         }
-
-        return Json(true);
+        else
+        {
+            return Json(new { success = false, message = "No puede eliminar el tipo de ejercicio. Existen ejercicios físicos que tienen este tipo de ejercicio." });
+        }
     }
+
 }

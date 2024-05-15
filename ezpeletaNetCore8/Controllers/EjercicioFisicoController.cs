@@ -43,7 +43,7 @@ public class EjercicioFisicoController : Controller
         ViewBag.EstadoEmocionalFin = selectListItem.OrderBy(t => t.Text).ToList();
 
 
-        var tipoEjercicios = _context.TipoEjercicios.ToList();
+        var tipoEjercicios = _context.TipoEjercicios.Where(t => t.Eliminado == false).ToList();
 
         tipoEjercicios.Add(new TipoEjercicio
         {

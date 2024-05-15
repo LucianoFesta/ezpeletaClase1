@@ -163,21 +163,22 @@ function eliminarRegistro(tipoEjercicioID) {
                 type: 'POST',
                 dataType: 'json',
                 success: function(result) {
-                    if(result == false){
+                    if(result.success){
+                        ListaTipoEjercicios();
+
+                    }else{
                         Swal.fire({
                             title: 'Ups, existe un inconveniente:',
-                            text: "No puede eliminar el tipo de ejercicio. Existen ejercicios físicos que tienen este tipo de ejercicio.",
+                            text: result.message,
                             icon: 'warning',
                             confirmButtonText: 'Cerrar'
                         });
                     }
-
-                    ListaTipoEjercicios();
                 },
                 error: function(xhr, status) {
                     Swal.fire({
                         title: 'Ups, existe un inconveniente:',
-                        text: "Disculpe, ocurrio un problema en la edición del tipo de ejercicio.",
+                        text: "Disculpe, ocurrio un problema en el borrado del tipo de ejercicio.",
                         icon: 'warning',
                         confirmButtonText: 'Volver a intentarlo'
                     });
