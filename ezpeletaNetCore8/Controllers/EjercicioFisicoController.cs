@@ -44,7 +44,7 @@ public class EjercicioFisicoController : Controller
 
 
         var tipoEjercicios = _context.TipoEjercicios.Where(t => t.Eliminado == false).ToList();
-
+        var tipoEjerciciosIDBuscar = _context.TipoEjercicios.Where(t => t.Eliminado == false).ToList();
         tipoEjercicios.Add(new TipoEjercicio
         {
             TipoEjercicioID = 0,
@@ -52,12 +52,17 @@ public class EjercicioFisicoController : Controller
         });
 
         ViewBag.TipoEjercicioID = new SelectList(tipoEjercicios.OrderBy(c => c.Nombre), "TipoEjercicioID", "Nombre");
-
+        tipoEjerciciosIDBuscar.Add(new TipoEjercicio
+        {
+            TipoEjercicioID = 0,
+            Nombre = "[BUSCAR TODOS]"
+        });
+        ViewBag.TipoEjercicioIDBuscar = new SelectList(tipoEjerciciosIDBuscar.OrderBy(c => c.Nombre), "TipoEjercicioID", "Nombre");
         return View();
     }
 
     
-    public JsonResult ListadoEjerciciosFisicos(int? id)
+    public JsonResult ListadoEjerciciosFisicos(int? id, DateTime? FechaDesdeBuscar, DateTime? FechaHastaBuscar, int? TipoEjercicioFisicoID)
     {
         //Se carga el tipo de ejercicio relacionado
         var ejerciciosFisicos = _context.EjerciciosFisicos.Include(e => e.TipoEjercicio).ToList();
@@ -66,6 +71,15 @@ public class EjercicioFisicoController : Controller
             ejerciciosFisicos = ejerciciosFisicos.Where(e => e.EjercicioFisicoID == id).ToList();
         
         }
+
+        if(FechaDesdeBuscar != null && FechaHastaBuscar != null){
+            ejerciciosFisicos = ejerciciosFisicos.Where(e => e.Inicio >= FechaDesdeBuscar && e.Fin <= FechaHastaBuscar).ToList();
+        }
+
+        if(TipoEjercicioFisicoID != 0 && TipoEjercicioFisicoID != null){
+            ejerciciosFisicos = ejerciciosFisicos.Where(e => e.TipoEjercicioID == TipoEjercicioFisicoID).ToList();
+        }
+
         var newListEjerciciosFisicos = ejerciciosFisicos.Select(e => new EjercicioFisicoMostrar()
         {
             EjercicioFisicoID = e.EjercicioFisicoID,

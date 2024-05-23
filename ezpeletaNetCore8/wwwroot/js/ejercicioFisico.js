@@ -10,14 +10,17 @@ function listadoEjerciciosFisicos(){
 
     $('#modalEjercicioFisico').modal("hide");
 
+    var fechaDesdeBuscar = $('#FechaDesdeBuscar').val();
+    var fechaHastaBuscar = $('#FechaHastaBuscar').val();
+    var tipoEjercicioFisicoID = $('#TipoEjercicioIDBuscar').val();
+
     $.ajax({
         url: '../../EjercicioFisico/ListadoEjerciciosFisicos',
-        data: { },
+        data: { FechaDesdeBuscar: fechaDesdeBuscar, FechaHastaBuscar: fechaHastaBuscar, TipoEjercicioFisicoID: tipoEjercicioFisicoID },
         type: 'GET',
         dataType: 'json',
         success: function(ejerciciosFisicos){
             $.each(ejerciciosFisicos, function(index, ejercicio){
-
                 // Formatear el objeto Date al formato deseado
                 var fechaInicioFormateada = new Date(ejercicio.inicio).toLocaleDateString('es-ES', {
                     day: '2-digit',
