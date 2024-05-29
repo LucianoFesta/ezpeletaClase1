@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using ezpeletaNetCore8.Models;
 
 namespace ezpeletaNetCore8.Models
 {

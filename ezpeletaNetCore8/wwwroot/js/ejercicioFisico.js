@@ -1,6 +1,42 @@
 document.addEventListener('DOMContentLoaded', function() {
     listadoEjerciciosFisicos();
+    crearGraficoEstatico();
 });
+
+function crearGraficoEstatico(){
+    const grafico = document.getElementById('miPrimerGrafico');
+
+    new Chart(grafico, {
+        type: 'line',
+        data: {
+            labels: ['Caminar', 'Correr', 'Running', 'Jugar Fútbol', 'Crossfit', 'Funcional'],
+            datasets: [{
+                label: 'Cantidad de días por Ejercicio Físico',
+                data:[2, 1, 5, 2, 10, 10],
+                borderColor: 'red',
+                backgroundColor: 'red',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            size: 15
+                        },
+                        boxWidth: 20
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                },
+            }
+        }
+    })
+}
 
 function listadoEjerciciosFisicos(){
 
