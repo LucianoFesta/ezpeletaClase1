@@ -115,69 +115,93 @@
   </tbody>
 </table>
 
-<div class="row">
-  <div class="col-lg-12">
-    <div class="card mb-4">
+<div class="row divEstadisticas">
+  <div>
+    <h3 class="estadisticas mt-3">Estadísticas de Actividad Física</h3>
+    <div class="busqueda">
+      <div class="card col-6 mt-4 mb-4">
 
-      <div class="card-header">
-        <i class="fas fa-search me-1"></i> Buscar por:
+        <div class="card-header">
+          <i class="fas fa-search me-1"></i> Buscar por:
+        </div>
+
+        <div class="card-body">
+          <div class="row">
+
+            <div class="col-lg-12">
+              <label class="control-label">Tipo de Ejercicio:</label>
+              @Html.DropDownList("TipoEjercicioIDGrafico", null, htmlAttributes: new { @class = "form-control" })
+            </div>
+
+            <div class=" col-6 mb-2">
+              <label class="control-label">Mes:</label>
+              <select class="form-control" id="mesEjercicio">
+                  <option value="1">Enero</option>
+                  <option value="2">Febrero</option>
+                  <option value="3">Marzo</option>
+                  <option value="4">Abril</option>
+                  <option value="5" selected>Mayo</option>
+                  <option value="6">Junio</option>
+                  <option value="7">Julio</option>
+                  <option value="8">Agosto</option>
+                  <option value="9">Septiembre</option>
+                  <option value="10">Octubre</option>
+                  <option value="11">Noviembre</option>
+                  <option value="12">Diciembre</option>
+              </select>
+            </div>
+
+            <div class="col-6 mb-2">
+                <label class="control-label">Año:</label>
+                <select class="form-control" id="yearEjercicio">
+                    <option value="2023">2023</option>
+                    <option value="2024" selected>2024</option>
+                </select>
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      <div class="card-body">
-        <div class="row">
-
-          <div class="col-lg-12">
-            <label class="control-label">Tipo de Ejercicio:</label>
-            @Html.DropDownList("TipoEjercicioIDGrafico", null, htmlAttributes: new { @class = "form-control" })
+      <div class="col-4">
+        <div>
+          <div class="card bg-success text-white mb-2">
+              <div class="card-body" id="cardTotalEjercicios"></div>
           </div>
-
-          <div class=" col-6 mb-2">
-            <label class="control-label">Mes:</label>
-            <select class="form-control" id="mesEjercicio" onchange="crearGrafico()">
-                <option value="1">Enero</option>
-                <option value="2">Febrero</option>
-                <option value="3">Marzo</option>
-                <option value="4">Abril</option>
-                <option value="5" selected>Mayo</option>
-                <option value="6">Junio</option>
-                <option value="7">Julio</option>
-                <option value="8">Agosto</option>
-                <option value="9">Septiembre</option>
-                <option value="10">Octubre</option>
-                <option value="11">Noviembre</option>
-                <option value="12">Diciembre</option>
-            </select>
-          </div>
-
-          <div class="col-6 mb-2">
-              <label class="control-label">Año:</label>
-              <select class="form-control" id="yearEjercicio">
-                  <option value="2023">2023</option>
-                  <option value="2024" selected>2024</option>
-              </select>
+        </div>
+        <div>
+          <div class="card bg-danger text-white mb-2">
+              <div class="card-body" id="cardSinEjercicios"></div>
           </div>
         </div>
       </div>
 
     </div>
   </div>
-</div>
 
-<div class="col-12">
-  <div class="row">
-    <div class="col-lg-6 col-md-6">
-      <div class="card bg-success text-white mb-2">
-          <div class="card-body" id="cardTotalEjercicios"></div>
+  <div class="divGraficos">
+
+    <div class="col-12 mt-2 graficoLinea">
+      <div class="card">
+        <div class="card-header">
+          <h6>Ejercicios Físicos por día</h6>
+        </div>
+        <div class="card-body">
+          <canvas id="miPrimerGrafico" class="linea"></canvas>
+        </div>
       </div>
     </div>
-    <div class="col-lg-6 col-md-6">
-      <div class="card bg-danger text-white mb-2">
-          <div class="card-body" id="cardSinEjercicios"></div>
-      </div>
+
+      <div class="col-12 mt-2 graficoTorta">
+        <div class="card">
+          <div class="card-header">
+            <h6>Tipo de Ejercicios</h6>
+          </div>
+          <div class="card-body">
+            <canvas id="graficoTipoEjercicios"></canvas>
+          </div>
+        </div>
     </div>
-  </div>
-  <div class="col-12 mt-2">
-    <canvas id="miPrimerGrafico"></canvas>
   </div>
 </div>
 

@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 let graficoEjerciciosRealizados;
+let graficoNuevoCircular;
 
 function crearGraficoEstatico(){
     var tipoEjercicioId = document.getElementById('TipoEjercicioIDGrafico').value;
@@ -41,8 +42,6 @@ function crearGraficoEstatico(){
             $("#cardTotalEjercicios").text(totalidadMinitosEjercitados + " Minutos en " + diasConEjercicioRealizado + " días.");
             $("#cardSinEjercicios").text(cantDiasSinEjercicio + " días sin " + nombreTipoEjercicio + ".");
 
-
-
             const grafico = document.getElementById('miPrimerGrafico');
 
             graficoEjerciciosRealizados = new Chart(grafico, {
@@ -54,7 +53,7 @@ function crearGraficoEstatico(){
                         data: data,
                         borderColor: 'red',
                         backgroundColor: 'red',
-                        borderWidth: 2
+                        borderWidth: 2,
                     }]
                 },
                 options: {
@@ -75,7 +74,7 @@ function crearGraficoEstatico(){
                     }
                 }
             })
-
+            GraficoCircular();
         },
         error: function(e, status){
             console.log('Error al crear un gráfico de ejercicios.');
@@ -84,8 +83,58 @@ function crearGraficoEstatico(){
 }
 
 
-$("#TipoEjercicioIDGrafico, #mesEjercicio, #yearEjercicio").change(function() {
+function GraficoCircular(){
+    var mesEjercicioBuscado = document.getElementById('mesEjercicio').value;
+    var yearEjercicioBuscado = document.getElementById('yearEjercicio').value;
+
+    $.ajax({
+        url: '../../EjercicioFisico/GraficoTipoEjercicios',
+        data: { mes : mesEjercicioBuscado, year : yearEjercicioBuscado },
+        type: 'GET',
+        dataType: 'json',
+        success: function(tiposEjerciciosView){
+
+            var labels = [];
+            var data = [];
+            var colorFondo = [];
+
+            $.each(tiposEjerciciosView, function(i, tipoEjercicioView){
+                labels.push(tipoEjercicioView.descripcion);
+                data.push(tipoEjercicioView.cantidadMinutos);
+
+                var color = generarColorVerde();
+                colorFondo.push(color);
+            })
+
+            var graficoTorta = document.getElementById("graficoTipoEjercicios");
+            graficoNuevoCircular = new Chart(graficoTorta, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: colorFondo,
+                    }],
+                },
+            });
+
+        },
+        error: function(e, status){
+            console.log('Ocurrió un error al crear el gráfico circular de Tipo Ejercicios.');
+        }
+    })
+}
+
+
+$("#TipoEjercicioIDGrafico").change(function() {
     graficoEjerciciosRealizados.destroy();
+    graficoNuevoCircular.destroy();
+    crearGraficoEstatico();
+});
+
+$("#mesEjercicio, #yearEjercicio").change(function() {
+    graficoEjerciciosRealizados.destroy();
+    graficoNuevoCircular.destroy();
     crearGraficoEstatico();
 });
 
@@ -280,4 +329,17 @@ function abrirModalEditar(ejercicioFisicoID){
 
         }
     })
+}
+
+function generarColorVerde() {
+    // El valor de GG será alto (de 128 a 255) para garantizar que predomine el verde.
+    // Los valores de RR y BB serán bajos (de 0 a 127).
+
+    let rr = Math.floor(Math.random() * 128) + 128; // 128 a 255 
+    let gg = Math.floor(Math.random() * 128); // 0 a 127
+    let bb = Math.floor(Math.random() * 128); // 0 a 127
+
+    // Convertimos a hexadecimal y formateamos para que tenga siempre dos dígitos.
+    let colorHex = `#${rr.toString(16).padStart(2, '0')}${gg.toString(16).padStart(2, '0')}${bb.toString(16).padStart(2, '0')}`;
+    return colorHex;
 }

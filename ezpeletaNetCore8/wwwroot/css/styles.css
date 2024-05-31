@@ -248,3 +248,40 @@ h2{
     margin-top: 15px;
     width: 100%;
 }
+
+.divEstadisticas{
+    background-color: rgba(152, 97, 1, 0.429);
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 50px;
+}
+
+.estadisticas{
+    text-transform: uppercase;
+    font-style: italic;
+    margin-top: 30px;
+    color: rgb(114, 114, 114)
+}
+
+.busqueda{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.divGraficos{
+    display: flex;
+    max-width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.graficoLinea{
+    width: 60%;
+}
+
+.graficoTorta{
+    width: 30%;
+}
+

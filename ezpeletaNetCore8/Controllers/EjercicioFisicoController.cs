@@ -205,4 +205,37 @@ public class EjercicioFisicoController : Controller
         return Json(ejerciciosXdia);
     }
 
+
+    public JsonResult GraficoTipoEjercicios(int mes, int year){
+
+        var tiposEjerciciosView = new List<VistaTipoDeEjercicio>(); 
+
+        var tiposEjercicios = _context.TipoEjercicios.Where(t => t.Eliminado == false).ToList();
+
+        foreach (var ejercicio in tiposEjercicios)
+        {
+            var ejerciciosMostrar = _context.EjerciciosFisicos.Where(e => e.TipoEjercicioID == ejercicio.TipoEjercicioID && e.Inicio.Month == mes && e.Inicio.Year == year).ToList();
+
+            foreach (var ejercicioActual in ejerciciosMostrar)
+            {
+                var tipoEjercicioMostrar = tiposEjerciciosView.Where(t => t.TipoEjercicioID == ejercicioActual.TipoEjercicioID).SingleOrDefault();
+
+                if(tipoEjercicioMostrar == null){
+                    tipoEjercicioMostrar = new VistaTipoDeEjercicio
+                    {
+                        TipoEjercicioID = ejercicio.TipoEjercicioID,
+                        Descripcion = ejercicio.Nombre,
+                        CantidadMinutos = Convert.ToDecimal(ejercicioActual.IntervaloDeTiempoEjercicio.TotalMinutes)
+                    };
+                    tiposEjerciciosView.Add(tipoEjercicioMostrar);
+
+                }else{
+                    tipoEjercicioMostrar.CantidadMinutos += Convert.ToDecimal(ejercicioActual.IntervaloDeTiempoEjercicio.TotalMinutes);
+                }
+            }
+        }
+
+        return Json(tiposEjerciciosView);
+    }
+
 }
