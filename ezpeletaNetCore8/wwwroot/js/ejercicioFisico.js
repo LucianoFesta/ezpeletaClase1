@@ -3,40 +3,92 @@ document.addEventListener('DOMContentLoaded', function() {
     crearGraficoEstatico();
 });
 
-function crearGraficoEstatico(){
-    const grafico = document.getElementById('miPrimerGrafico');
+let graficoEjerciciosRealizados;
 
-    new Chart(grafico, {
-        type: 'line',
-        data: {
-            labels: ['Caminar', 'Correr', 'Running', 'Jugar Fútbol', 'Crossfit', 'Funcional'],
-            datasets: [{
-                label: 'Cantidad de días por Ejercicio Físico',
-                data:[2, 1, 5, 2, 10, 10],
-                borderColor: 'red',
-                backgroundColor: 'red',
-                borderWidth: 2
-            }]
-        },
-        options: {
-            plugins: {
-                legend: {
-                    labels: {
-                        font: {
-                            size: 15
+function crearGraficoEstatico(){
+    var tipoEjercicioId = document.getElementById('TipoEjercicioIDGrafico').value;
+    var mesEjercicioBuscado = document.getElementById('mesEjercicio').value;
+    var yearEjercicioBuscado = document.getElementById('yearEjercicio').value;
+
+    $.ajax({
+        url: '../../EjercicioFisico/CrearGraficoEjercicios',
+        data: { tipoEjercicioId : tipoEjercicioId, mes : mesEjercicioBuscado, year : yearEjercicioBuscado },
+        type: 'GET',
+        dataType: 'json',
+        success: function(ejerciciosXdia){
+            
+            let labels = [];
+            let data = [];
+            let diasConEjercicioRealizado = 0;
+            let totalidadMinitosEjercitados = 0;
+
+            $.each(ejerciciosXdia, function(i, ejercicio){
+                labels.push(ejercicio.dia + " " + ejercicio.mes);
+                data.push(ejercicio.cantidadMinutos)
+
+                totalidadMinitosEjercitados += ejercicio.cantidadMinutos;
+
+                if(ejercicio.cantidadMinutos > 0){
+                    diasConEjercicioRealizado += 1;
+                }
+            })
+
+            //Obtengo el tipo de ejercicio seleccionado en nombre
+            var tipoEjercicio = document.getElementById('TipoEjercicioIDGrafico');
+            var nombreTipoEjercicio = tipoEjercicio.options[tipoEjercicio.selectedIndex].text;
+            let cantDiasSinEjercicio = ejerciciosXdia.length - diasConEjercicioRealizado;
+
+            $("#cardTotalEjercicios").text(totalidadMinitosEjercitados + " Minutos en " + diasConEjercicioRealizado + " días.");
+            $("#cardSinEjercicios").text(cantDiasSinEjercicio + " días sin " + nombreTipoEjercicio + ".");
+
+
+
+            const grafico = document.getElementById('miPrimerGrafico');
+
+            graficoEjerciciosRealizados = new Chart(grafico, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Minutos de Actividad',
+                        data: data,
+                        borderColor: 'red',
+                        backgroundColor: 'red',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            labels: {
+                                font: {
+                                    size: 15
+                                },
+                                boxWidth: 20
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
                         },
-                        boxWidth: 20
                     }
                 }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                },
-            }
+            })
+
+        },
+        error: function(e, status){
+            console.log('Error al crear un gráfico de ejercicios.');
         }
     })
 }
+
+
+$("#TipoEjercicioIDGrafico, #mesEjercicio, #yearEjercicio").change(function() {
+    graficoEjerciciosRealizados.destroy();
+    crearGraficoEstatico();
+});
+
 
 function listadoEjerciciosFisicos(){
 

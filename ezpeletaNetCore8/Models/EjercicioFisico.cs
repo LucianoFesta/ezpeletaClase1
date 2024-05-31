@@ -11,6 +11,8 @@ namespace ezpeletaNetCore8.Models
         public int TipoEjercicioID { get; set; }
         public DateTime Inicio { get; set; }
         public DateTime Fin { get; set; }
+        [NotMapped]
+        public TimeSpan IntervaloDeTiempoEjercicio { get{ return Fin - Inicio; } } //ESTE CAMPO NO SE SE ALAMACENA EN DB
         public EstadoEmocional EstadoEmocionalInicio {get; set; } 
         public EstadoEmocional EstadoEmocionalFin {get; set; } 
         public string? Observaciones {get; set; }

@@ -58,7 +58,14 @@ public class EjercicioFisicoController : Controller
             Nombre = "[BUSCAR TODOS]"
         });
         ViewBag.TipoEjercicioIDBuscar = new SelectList(tipoEjerciciosIDBuscar.OrderBy(c => c.Nombre), "TipoEjercicioID", "Nombre");
+        
+
+        //VIEWBAG PARA EL GRÁFICO
+        var listadoTipoEjercicios = _context.TipoEjercicios.Where(t => t.Eliminado == false).ToList();
+        ViewBag.TipoEjercicioIDGrafico = new SelectList(listadoTipoEjercicios.OrderBy(t => t.Nombre), "TipoEjercicioID", "Nombre");
+        
         return View();
+
     }
 
     
@@ -157,6 +164,45 @@ public class EjercicioFisicoController : Controller
         _context.SaveChanges();
 
         return Json(true);
+    }
+
+
+    public JsonResult CrearGraficoEjercicios(int tipoEjercicioId, int mes, int year){
+
+        List<EjerciciosXdia> ejerciciosXdia = new List<EjerciciosXdia>();
+
+        //PARA CREAR EL GRÁFICO DE ACTIVIDADES POR DÍA, PRIMERO DEBO PODER CREAR LOS DÍAS DEL MES A MOSTRAR EN EL GRÁFICO.
+        var diasDelMes = DateTime.DaysInMonth(year, mes);
+        DateTime fechaMes = new DateTime();
+        fechaMes = fechaMes.AddMonths(mes - 1);
+
+        for (int i = 1; i <= diasDelMes; i++)
+        {
+            var diaDelMesMostrar = new EjerciciosXdia 
+            {
+                Dia = i,
+                Mes = fechaMes.ToString("MMM"),
+                CantidadMinutos = 0
+            };    
+            ejerciciosXdia.Add(diaDelMesMostrar);
+        }
+
+
+        //UNA VEZ CREADOS LOS DIAS DEL MES A MOSTRAR, BUSCAR EN DB LOS EJERCICIOS QUE COINCIDAN CON LOS MÉTODOS DE BÚSQUEDA.
+        var ejerciciosBuscar = _context.EjerciciosFisicos.Where(e => e.TipoEjercicioID == tipoEjercicioId && e.Inicio.Month == mes && e.Inicio.Year == year).ToList();
+
+        foreach (var ejercicio in ejerciciosBuscar.OrderBy(e => e.Inicio))
+        {
+            var ejercicioXdiaMostrar = ejerciciosXdia.Where(e => e.Dia == ejercicio.Inicio.Day).SingleOrDefault();
+
+            if(ejercicioXdiaMostrar != null){
+                //Si existe en el listado de ejercicios por dia, sumar la cantidad de minutos obteniendo el intervalo (atributo de vista - ver modelo) de minutos entre fin e inicio-
+                ejercicioXdiaMostrar.CantidadMinutos += Convert.ToInt32(ejercicio.IntervaloDeTiempoEjercicio.TotalMinutes);
+            }
+        }
+
+
+        return Json(ejerciciosXdia);
     }
 
 }
