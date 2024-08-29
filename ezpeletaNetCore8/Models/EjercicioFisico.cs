@@ -28,6 +28,7 @@ namespace ezpeletaNetCore8.Models
         public DateTime Fin { get; set; }
         public string EstadoEmocionalInicio {get; set; } 
         public string EstadoEmocionalFin {get; set; } 
+        public TimeSpan IntervaloDeTiempoEjercicio { get{ return Fin - Inicio; } }
         public EstadoEmocional EstadoEmocionalInicioInt {get; set; } 
         public EstadoEmocional EstadoEmocionalFinInt {get; set; } 
         public string? Observaciones {get; set; }

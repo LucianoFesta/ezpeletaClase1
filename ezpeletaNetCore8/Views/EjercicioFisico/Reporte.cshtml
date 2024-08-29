@@ -1,0 +1,39 @@
+<h2>Vista Reporte</h2>
+
+<div class="row mt-3 flexSearch">
+  <div class="mb-3 col-3">
+    <label class="form-label">Fecha Desde</label>
+    <input type="datetime-local" id="FechaDesdeBuscar" class="form-control">
+  </div>
+
+  <div class="mb-3 col-3">
+    <label class="form-label">Fecha Hasta </label>
+    <input type="datetime-local" id="FechaHastaBuscar" class="form-control">
+  </div>
+
+  <div class="mb-6 col-2">
+    <button type="button" onclick="ListadoEjercicios()" class="btn btn-primary"><i class="fas fa-solid fa-search"></i> Buscar</button>
+  </div>
+</div>
+
+<div id="tablasListados">
+    <table class="table table-light table-bordered table-striped table-condensed">
+        <thead>
+            <tr>
+                <th class="thTabla">Listado de Ejercicios Físicos</th>
+                <th class="thTabla">Fecha Inicio</th>
+                <th class="thTabla">Fecha Fin</th>
+                <th class="thTabla">Duración</th>
+                <th class="thTabla">Emoción Inicial</th>
+                <th class="thTabla">Emoción Final</th>
+                <th class="thTabla">Observaciones</th>
+            </tr>
+        </thead>
+        <tbody id="tbody-reporte">
+        </tbody>
+    </table>
+</div>
+
+@section Scripts{
+  <script src="~/js/reporte.js"></script>
+}
