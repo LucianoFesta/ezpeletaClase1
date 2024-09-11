@@ -8,11 +8,9 @@
 
 <div class="d-flex justify-content-end botones">
   <!-- Button trigger modal -->
-
   <button type="button" class="btn btn-primary mb-2" onclick="listadoEjerciciosFisicos()">
     <i class="fas fa-solid fa-list"></i> Listado Ejercicios Fisicos
   </button>
-
 
   <!-- Button trigger modal -->
   <button type="button" onclick="nuevoRegistro()" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#modalEjercicioFisico">
@@ -81,6 +79,10 @@
               @Html.DropDownList("EstadoEmocionalFin", null, htmlAttributes: new { @class = "form-control" })
             </div>
 
+            <div class="mb-3 col-6">
+              <label for="Lugar" class="form-label">Lugar</label>
+              @Html.DropDownList("Lugar", null, htmlAttributes: new { @class = "form-control" })
+            </div>
 
             <div class="mb-3 col-12">
               <label for="Observaciones" class="form-label">Observaciones</label>
@@ -106,6 +108,7 @@
       <th class="thTabla">Fecha Fin</th>
       <th class="thTabla">Emoción Inicial</th>
       <th class="thTabla">Emoción Final</th>
+      <th class="thTabla">Lugar</th>
       <th class="thTabla">Observaciones</th>
       <th style="width: 70px"></th>
       <th style="width: 70px"></th>

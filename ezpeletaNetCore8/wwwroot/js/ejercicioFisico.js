@@ -157,6 +157,7 @@ function listadoEjerciciosFisicos(){
         type: 'GET',
         dataType: 'json',
         success: function(ejerciciosFisicos){
+            console.log(ejerciciosFisicos);
             $.each(ejerciciosFisicos, function(index, ejercicio){
                 // Formatear el objeto Date al formato deseado
                 var fechaInicioFormateada = new Date(ejercicio.inicio).toLocaleDateString('es-ES', {
@@ -182,6 +183,7 @@ function listadoEjerciciosFisicos(){
                         <td class="tbody">${fechaFinFormateada} hs.</td>
                         <td class="tbody">${ejercicio.estadoEmocionalInicio}</td>
                         <td class="tbody">${ejercicio.estadoEmocionalFin}</td>
+                        <td class="tbody">${ejercicio.lugar}</td>
                         <td class="tbody">${ejercicio.observaciones}</td>
                         <td class="text-center">
                             <button type="button" class="btn btn-success mb-2" onclick="abrirModalEditar(${ejercicio.ejercicioFisicoID})">
@@ -216,10 +218,11 @@ function limpiarModal(){
     document.getElementById("FechaFin").value = "";
     document.getElementById("EstadoEmocionalFin").value = 0;
     document.getElementById("Observaciones").value = "";   
+    document.getElementById("Lugar").value = 0;   
 }
 
 function nuevoRegistro(){
-    $('#modalTitulo').text('Crear nuevo ejercicio físico');
+    $("#modalTitulo").text("Nuevo tipo de ejercicio");
 }
 
 function guardarRegistro(){
@@ -231,13 +234,15 @@ function guardarRegistro(){
     var estadoEmocionalFin = document.getElementById("EstadoEmocionalFin").value;
     var fin = document.getElementById("FechaFin").value;
     var observaciones = document.getElementById("Observaciones").value;
+    var lugar = document.getElementById("Lugar").value;
     
     $.ajax({
         url: "../../EjercicioFisico/SaveEjercicio",
-        data: { ejercicioFisicoID, tipoEjercicioID, inicio, estadoEmocionalInicio, estadoEmocionalFin, fin, observaciones },
+        data: { ejercicioFisicoID, tipoEjercicioID, inicio, estadoEmocionalInicio, estadoEmocionalFin, fin, observaciones, lugar },
         type: 'POST',
         dataType: 'json',
         success: function(result){
+
 
             if(result.success == false){
                 Swal.fire({

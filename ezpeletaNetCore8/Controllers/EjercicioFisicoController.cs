@@ -102,6 +102,13 @@ public class EjercicioFisicoController : Controller
         var listadoTipoEjercicios = _context.TipoEjercicios.Where(t => t.Eliminado == false).ToList();
         ViewBag.TipoEjercicioIDGrafico = new SelectList(listadoTipoEjercicios.OrderBy(t => t.Nombre), "TipoEjercicioID", "Nombre");
         
+        var listaLugares = _context.Lugares.ToList();
+        listaLugares.Add(new Lugar(){
+            LugarID = 0,
+            Nombre = "[Seleccione...]"
+        });
+        ViewBag.Lugar = new SelectList(listaLugares.OrderBy(l => l.Nombre), "LugarID", "Nombre");
+
         return View();
 
     }
@@ -111,6 +118,7 @@ public class EjercicioFisicoController : Controller
     {
         //Se carga el tipo de ejercicio relacionado
         var ejerciciosFisicos = _context.EjerciciosFisicos.Include(e => e.TipoEjercicio).ToList();
+        ejerciciosFisicos = [.. _context.EjerciciosFisicos.Include(l => l.Lugar)];
 
         if (id.HasValue){   
             ejerciciosFisicos = ejerciciosFisicos.Where(e => e.EjercicioFisicoID == id).ToList();
@@ -135,6 +143,7 @@ public class EjercicioFisicoController : Controller
             EstadoEmocionalInicioInt = e.EstadoEmocionalInicio,
             EstadoEmocionalFinInt = e.EstadoEmocionalFin,
             Observaciones = e.Observaciones,
+            Lugar = e.Lugar.Nombre,
             NombreTipoEjercicio = e.TipoEjercicio.Nombre
             
         }).ToList();
@@ -142,9 +151,9 @@ public class EjercicioFisicoController : Controller
         return Json(newListEjerciciosFisicos);
     }
 
-    public JsonResult SaveEjercicio(int ejercicioFisicoID, int tipoEjercicioID, DateTime inicio, EstadoEmocional estadoEmocionalInicio, EstadoEmocional estadoEmocionalFin, DateTime fin, string observaciones){
+    public JsonResult SaveEjercicio(int ejercicioFisicoID, int tipoEjercicioID, DateTime inicio, EstadoEmocional estadoEmocionalInicio, EstadoEmocional estadoEmocionalFin, DateTime fin, int lugar, string observaciones){
 
-        if(tipoEjercicioID <= 0 || inicio == DateTime.MinValue || estadoEmocionalInicio == 0 || estadoEmocionalFin == 0 || fin == DateTime.MinValue || string.IsNullOrEmpty(observaciones))
+        if(tipoEjercicioID <= 0 || inicio == DateTime.MinValue || estadoEmocionalInicio == 0 || estadoEmocionalFin == 0 || fin == DateTime.MinValue || string.IsNullOrEmpty(observaciones) || lugar <= 0)
         {
             return Json(new { success = false, message = "Por favor, completa todos los campos para poder crear un ejercicio físico." });
 
@@ -165,7 +174,8 @@ public class EjercicioFisicoController : Controller
                         EstadoEmocionalInicio = (EstadoEmocional)estadoEmocionalInicio,
                         EstadoEmocionalFin = (EstadoEmocional)estadoEmocionalFin,
                         Fin = fin,
-                        Observaciones = observaciones
+                        Observaciones = observaciones,
+                        LugarID = lugar
                     };
 
                     _context.EjerciciosFisicos.Add(newEjercicio);
@@ -185,6 +195,7 @@ public class EjercicioFisicoController : Controller
                 ejercicioFisicoEditar.EstadoEmocionalFin = estadoEmocionalFin;
                 ejercicioFisicoEditar.EstadoEmocionalInicio = estadoEmocionalInicio;
                 ejercicioFisicoEditar.Observaciones = observaciones;
+                ejercicioFisicoEditar.LugarID = lugar;
 
                 _context.SaveChanges();
 

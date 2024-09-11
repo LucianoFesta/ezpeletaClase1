@@ -1,0 +1,63 @@
+@{
+  ViewData["Title"] = "Lugares";
+}
+
+<div class="text-center">
+  <h2>Listado de lugares</h2>
+</div>
+
+<div class="d-flex justify-content-end botones">
+  <!-- Button trigger modal -->
+
+  <button type="button" onclick="ListaTipoEjercicios()" class="btn btn-primary mb-2">
+    <i class="fas fa-solid fa-list"></i> Lugares
+  </button>
+
+
+  <!-- Button trigger modal -->
+  <button type="button" onclick="nuevoLugar()" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#modalLugar">
+    <i class="fas fa-solid fa-plus"></i> Crear lugar
+  </button>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalLugar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="modalTituloLugar"></h1>
+        <button type="button" onclick="limpiarModalLugar()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="" id="formLugar">
+            <div class="mb-3 d-flex flex-column align-items-start">
+              <input type="hidden" id="lugarID" value="0"/>
+              <label for="lugar" class="form-label">Nombre del Lugar: </label>
+              <input type="text" class="form-control" id="lugar" name="name" placeholder="Nombre del Lugar">
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="limpiarModalLugar()" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa-solid fa-ban"></i> Cancelar</button>
+        <button type="button" onclick="guardarLugar()" class="btn btn-success"><i class="fas fa-solid fa-plus"></i> Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table class="table table-light table-bordered table-striped table-condensed">
+  <thead>
+    <tr>
+      <th class="thTabla">Listado de Lugares</th>      
+      <th style="width: 70px"></th>
+      <th style="width: 70px"></th>
+    </tr>
+  </thead>
+  <tbody id="tbody-tipoejercicios">
+  </tbody>
+</table>
+
+@section Scripts{
+  <script src="~/js/lugar.js"></script>
+}

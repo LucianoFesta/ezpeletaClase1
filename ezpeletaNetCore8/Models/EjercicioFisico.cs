@@ -9,6 +9,7 @@ namespace ezpeletaNetCore8.Models
         [Key]
         public int EjercicioFisicoID { get; set; }
         public int TipoEjercicioID { get; set; }
+        public int LugarID { get; set; }
         public DateTime Inicio { get; set; }
         public DateTime Fin { get; set; }
         [NotMapped]
@@ -18,6 +19,7 @@ namespace ezpeletaNetCore8.Models
         public string? Observaciones {get; set; }
 
         public virtual TipoEjercicio TipoEjercicio { get; set; }
+        public virtual Lugar Lugar { get; set; }
     }
 
     public class EjercicioFisicoMostrar{
@@ -31,6 +33,7 @@ namespace ezpeletaNetCore8.Models
         public TimeSpan IntervaloDeTiempoEjercicio { get{ return Fin - Inicio; } }
         public EstadoEmocional EstadoEmocionalInicioInt {get; set; } 
         public EstadoEmocional EstadoEmocionalFinInt {get; set; } 
+        public string Lugar {get; set; }
         public string? Observaciones {get; set; }
         public string NombreTipoEjercicio { get; set; }
 
