@@ -25,37 +25,73 @@ public class EjercicioFisicoController : Controller
         return View();
     }
 
-    public JsonResult ListadoReporte(DateTime? Desde, DateTime? Hasta)
+public JsonResult ListadoReporte(DateTime? Desde, DateTime? Hasta)
+{
+    var listado = _context.EjerciciosFisicos
+        .Include(e => e.TipoEjercicio)
+        .Include(e => e.Lugar)
+        .ToList();
+
+    if (Desde != null && Hasta != null)
     {
-        var listado = _context.EjerciciosFisicos.Include(e => e.TipoEjercicio).ToList();
-
-        if(Desde != null && Hasta != null){
-            listado = listado.Where(e => e.Inicio >= Desde && e.Fin <= Hasta ).ToList();
-        }
-
-        if(listado.Count > 0){
-
-            var newListado = listado.Select(e => new EjercicioFisicoMostrar(){
-                EjercicioFisicoID = e.EjercicioFisicoID,
-                Inicio = e.Inicio,
-                Fin = e.Fin,
-                EstadoEmocionalInicio = e.EstadoEmocionalInicio.ToString(),
-                EstadoEmocionalFin = e.EstadoEmocionalFin.ToString(),
-                EstadoEmocionalInicioInt = e.EstadoEmocionalInicio,
-                EstadoEmocionalFinInt = e.EstadoEmocionalFin,
-                Observaciones = e.Observaciones,
-                NombreTipoEjercicio = e.TipoEjercicio.Nombre
-            })
-                .ToList()
-                .OrderBy(e => e.Inicio)
-                .OrderBy(e => e.NombreTipoEjercicio)
-                .GroupBy(e => e.NombreTipoEjercicio);
-
-            return Json(newListado);
-        }
-
-        return Json(true);
+        listado = listado.Where(e => e.Inicio >= Desde && e.Fin <= Hasta).ToList();
     }
+
+    if (listado.Count > 0)
+    {
+        var newListado = listado.Select(e => new EjercicioFisicoMostrar
+        {
+            EjercicioFisicoID = e.EjercicioFisicoID,
+            Inicio = e.Inicio,
+            Fin = e.Fin,
+            EstadoEmocionalInicio = e.EstadoEmocionalInicio.ToString(),
+            EstadoEmocionalFin = e.EstadoEmocionalFin.ToString(),
+            EstadoEmocionalInicioInt = e.EstadoEmocionalInicio,
+            EstadoEmocionalFinInt = e.EstadoEmocionalFin,
+            Observaciones = e.Observaciones,
+            NombreTipoEjercicio = e.TipoEjercicio.Nombre,
+            NombreLugar = e.Lugar.Nombre
+        })
+        .OrderBy(e => e.Inicio)
+        .OrderBy(e => e.NombreTipoEjercicio)
+        .OrderBy(e => e.NombreLugar)
+        .GroupBy(e => e.NombreTipoEjercicio);
+
+        var listaTresNiveles = new List<EjerciciosPorLugarMostrar>();
+
+        foreach (var grupoTipoEjercicio in newListado)
+        {
+            var ejercicioPorLugar = new EjerciciosPorLugarMostrar
+            {
+                TipoEjercicio = grupoTipoEjercicio.First().NombreTipoEjercicio,
+                EjerciciosLugar = new List<EjerciciosLugar>()
+            };
+
+            // Agrupamos por lugar
+            var agrupadoPorLugar = grupoTipoEjercicio.GroupBy(e => e.NombreLugar);
+
+            foreach (var grupoLugar in agrupadoPorLugar)
+            {
+                var lugarEjercicio = new EjerciciosLugar
+                {
+                    Lugar = grupoLugar.First().NombreLugar,
+                    Ejercicios = grupoLugar.ToList()
+                };
+
+                // Añadimos el lugar y sus ejercicios a la lista
+                ejercicioPorLugar.EjerciciosLugar.Add(lugarEjercicio);
+            }
+
+            // Añadimos el ejercicioPorLugar (tipo de ejercicio con lugares) a la lista principal
+            listaTresNiveles.Add(ejercicioPorLugar);
+        }
+
+        return Json(listaTresNiveles);
+    }
+
+    return Json(true);
+}
+
 
     public IActionResult Index()
     {

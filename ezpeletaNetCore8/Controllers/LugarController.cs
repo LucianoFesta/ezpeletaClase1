@@ -2,6 +2,7 @@ using System.Diagnostics; //Contexto principal
 using Microsoft.AspNetCore.Mvc;
 using ezpeletaNetCore8.Models;
 using ezpeletaNetCore8.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ezpeletaNetCore8.Controllers;
 
@@ -29,6 +30,13 @@ public class LugarController : Controller
     }
 
     public JsonResult SaveLugar(int lugarID, string lugar){
+
+        var lugarExiste = _context.Lugares.Where(l => l.Nombre.ToLower() == lugar.ToLower()).Count();
+
+        if(lugarExiste > 0)
+        {
+            return Json(new { success = false, message = "El lugar ya existe en la base de datos." });
+        }
 
         if(string.IsNullOrEmpty(lugar))
         {
@@ -60,5 +68,36 @@ public class LugarController : Controller
                 return Json(true);
             }
         }
+    }
+
+    public JsonResult ListadoLugares(int? idLugar)
+    {
+        var listadoLugares = _context.Lugares.ToList();
+
+        if(listadoLugares.Count > 0)
+        {
+            return Json(new { success = true, lista = listadoLugares });
+        }
+
+        return Json(false);
+    }
+
+    public JsonResult EliminarLugar(int id)
+    {
+        var lugarEliminar = _context.Lugares.Where(l => l.LugarID == id).SingleOrDefault();
+        var ejerciciosEnLugar = _context.EjerciciosFisicos.Include(t => t.Lugar).ToList();
+
+        var existEjercicio = ejerciciosEnLugar.Any(e => e.LugarID == id);
+
+        if(!existEjercicio)
+        {
+            _context.Remove(lugarEliminar);
+            _context.SaveChanges();
+
+            return Json(true);
+        }
+
+        return Json(new { success = false, message = "No se puede eliminar el lugar ya que existen ejercicios guardados con dicho lugar." });
+
     }
 }

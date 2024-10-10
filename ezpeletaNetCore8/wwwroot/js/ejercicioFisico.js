@@ -157,7 +157,7 @@ function listadoEjerciciosFisicos(){
         type: 'GET',
         dataType: 'json',
         success: function(ejerciciosFisicos){
-            console.log(ejerciciosFisicos);
+            
             $.each(ejerciciosFisicos, function(index, ejercicio){
                 // Formatear el objeto Date al formato deseado
                 var fechaInicioFormateada = new Date(ejercicio.inicio).toLocaleDateString('es-ES', {

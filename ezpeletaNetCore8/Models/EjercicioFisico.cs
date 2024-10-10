@@ -36,6 +36,7 @@ namespace ezpeletaNetCore8.Models
         public string Lugar {get; set; }
         public string? Observaciones {get; set; }
         public string NombreTipoEjercicio { get; set; }
+        public string NombreLugar { get; set; }
 
     }
 
