@@ -235,10 +235,13 @@ function guardarRegistro(){
     var fin = document.getElementById("FechaFin").value;
     var observaciones = document.getElementById("Observaciones").value;
     var lugar = document.getElementById("Lugar").value;
+    var evento = document.getElementById("Evento").value;
+
+    console.log(observaciones, lugar, evento);
     
     $.ajax({
         url: "../../EjercicioFisico/SaveEjercicio",
-        data: { ejercicioFisicoID, tipoEjercicioID, inicio, estadoEmocionalInicio, estadoEmocionalFin, fin, observaciones, lugar },
+        data: { ejercicioFisicoID, tipoEjercicioID, inicio, estadoEmocionalInicio, estadoEmocionalFin, fin, observaciones, lugar, evento },
         type: 'POST',
         dataType: 'json',
         success: function(result){

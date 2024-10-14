@@ -145,6 +145,13 @@ public JsonResult ListadoReporte(DateTime? Desde, DateTime? Hasta)
         });
         ViewBag.Lugar = new SelectList(listaLugares.OrderBy(l => l.Nombre), "LugarID", "Nombre");
 
+        var listaEventos = _context.EventosDeportivos.Where(e => e.Eliminado == false).ToList();
+        listaEventos.Add(new EventoDeportivo(){
+            EventoID = 0,
+            Descripcion = "[Seleccione...]"
+        });
+        ViewBag.Evento = new SelectList(listaEventos.OrderBy(e => e.Descripcion), "EventoID", "Descripcion");
+
         return View();
 
     }
@@ -187,9 +194,9 @@ public JsonResult ListadoReporte(DateTime? Desde, DateTime? Hasta)
         return Json(newListEjerciciosFisicos);
     }
 
-    public JsonResult SaveEjercicio(int ejercicioFisicoID, int tipoEjercicioID, DateTime inicio, EstadoEmocional estadoEmocionalInicio, EstadoEmocional estadoEmocionalFin, DateTime fin, int lugar, string observaciones){
+    public JsonResult SaveEjercicio(int ejercicioFisicoID, int tipoEjercicioID, DateTime inicio, EstadoEmocional estadoEmocionalInicio, EstadoEmocional estadoEmocionalFin, DateTime fin, int lugar, string observaciones, int evento){
 
-        if(tipoEjercicioID <= 0 || inicio == DateTime.MinValue || estadoEmocionalInicio == 0 || estadoEmocionalFin == 0 || fin == DateTime.MinValue || string.IsNullOrEmpty(observaciones) || lugar <= 0)
+        if(tipoEjercicioID <= 0 || inicio == DateTime.MinValue || estadoEmocionalInicio == 0 || estadoEmocionalFin == 0 || fin == DateTime.MinValue || string.IsNullOrEmpty(observaciones) || lugar <= 0 || evento <= 0)
         {
             return Json(new { success = false, message = "Por favor, completa todos los campos para poder crear un ejercicio físico." });
 
@@ -211,7 +218,8 @@ public JsonResult ListadoReporte(DateTime? Desde, DateTime? Hasta)
                         EstadoEmocionalFin = (EstadoEmocional)estadoEmocionalFin,
                         Fin = fin,
                         Observaciones = observaciones,
-                        LugarID = lugar
+                        LugarID = lugar,
+                        EventoDeportivoID = evento
                     };
 
                     _context.EjerciciosFisicos.Add(newEjercicio);
@@ -232,6 +240,7 @@ public JsonResult ListadoReporte(DateTime? Desde, DateTime? Hasta)
                 ejercicioFisicoEditar.EstadoEmocionalInicio = estadoEmocionalInicio;
                 ejercicioFisicoEditar.Observaciones = observaciones;
                 ejercicioFisicoEditar.LugarID = lugar;
+                ejercicioFisicoEditar.EventoDeportivoID = evento;
 
                 _context.SaveChanges();
 

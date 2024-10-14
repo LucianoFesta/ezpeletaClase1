@@ -1,0 +1,63 @@
+@{
+  ViewData["Title"] = "Eventos";
+}
+
+<div class="text-center">
+  <h2>Listado de Eventos</h2>
+</div>
+
+<div class="d-flex justify-content-end botones">
+  <!-- Button trigger modal -->
+
+  <button type="button" onclick="listadoEventos()" class="btn btn-primary mb-2">
+    <i class="fas fa-solid fa-list"></i> Eventos
+  </button>
+
+
+  <!-- Button trigger modal -->
+  <button type="button" onclick="nuevoEvento()" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#modalEvento">
+    <i class="fas fa-solid fa-plus"></i> Crear evento
+  </button>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalEvento" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="modalTituloEvento"></h1>
+        <button type="button" onclick="limpiarModalEvento()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="" id="formEvento">
+            <div class="mb-3 d-flex flex-column align-items-start">
+              <input type="hidden" id="eventoID" value="0"/>
+              <label for="evento" class="form-label">Nombre del Evento: </label>
+              <input type="text" class="form-control" id="evento" name="name" placeholder="Nombre del Evento">
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="limpiarModalEvento()" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa-solid fa-ban"></i> Cancelar</button>
+        <button type="button" onclick="guardarEvento()" class="btn btn-success"><i class="fas fa-solid fa-plus"></i> Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table class="table table-light table-bordered table-striped table-condensed">
+  <thead>
+    <tr>
+      <th class="thTabla">Listado de Eventos</th>      
+      <th style="width: 70px"></th>
+      <th style="width: 70px"></th>
+    </tr>
+  </thead>
+  <tbody id="tbody-eventos">
+  </tbody>
+</table>
+
+@section Scripts{
+  <script src="~/js/evento.js"></script>
+}
