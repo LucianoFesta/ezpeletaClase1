@@ -54,39 +54,9 @@ public JsonResult ListadoReporte(DateTime? Desde, DateTime? Hasta)
         })
         .OrderBy(e => e.Inicio)
         .OrderBy(e => e.NombreTipoEjercicio)
-        .OrderBy(e => e.NombreLugar)
         .GroupBy(e => e.NombreTipoEjercicio);
 
-        var listaTresNiveles = new List<EjerciciosPorLugarMostrar>();
-
-        foreach (var grupoTipoEjercicio in newListado)
-        {
-            var ejercicioPorLugar = new EjerciciosPorLugarMostrar
-            {
-                TipoEjercicio = grupoTipoEjercicio.First().NombreTipoEjercicio,
-                EjerciciosLugar = new List<EjerciciosLugar>()
-            };
-
-            // Agrupamos por lugar
-            var agrupadoPorLugar = grupoTipoEjercicio.GroupBy(e => e.NombreLugar);
-
-            foreach (var grupoLugar in agrupadoPorLugar)
-            {
-                var lugarEjercicio = new EjerciciosLugar
-                {
-                    Lugar = grupoLugar.First().NombreLugar,
-                    Ejercicios = grupoLugar.ToList()
-                };
-
-                // Añadimos el lugar y sus ejercicios a la lista
-                ejercicioPorLugar.EjerciciosLugar.Add(lugarEjercicio);
-            }
-
-            // Añadimos el ejercicioPorLugar (tipo de ejercicio con lugares) a la lista principal
-            listaTresNiveles.Add(ejercicioPorLugar);
-        }
-
-        return Json(listaTresNiveles);
+        return Json(newListado);
     }
 
     return Json(true);
