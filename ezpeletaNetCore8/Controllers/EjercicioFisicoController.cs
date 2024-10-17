@@ -30,6 +30,7 @@ public JsonResult ListadoReporte(DateTime? Desde, DateTime? Hasta)
     var listado = _context.EjerciciosFisicos
         .Include(e => e.TipoEjercicio)
         .Include(e => e.Lugar)
+        .Include(e => e.EventoDeportivo)
         .ToList();
 
     if (Desde != null && Hasta != null)
@@ -50,13 +51,52 @@ public JsonResult ListadoReporte(DateTime? Desde, DateTime? Hasta)
             EstadoEmocionalFinInt = e.EstadoEmocionalFin,
             Observaciones = e.Observaciones,
             NombreTipoEjercicio = e.TipoEjercicio.Nombre,
-            NombreLugar = e.Lugar.Nombre
+            NombreLugar = e.Lugar.Nombre,
+            NombreEvento = e.EventoDeportivo.Descripcion
         })
         .OrderBy(e => e.Inicio)
+        .OrderBy(e => e.NombreLugar)
         .OrderBy(e => e.NombreTipoEjercicio)
-        .GroupBy(e => e.NombreTipoEjercicio);
+        .OrderBy(e => e.NombreEvento)
+        .GroupBy(e => e.NombreEvento);
 
-        return Json(newListado);
+        var ejerciciosPorEvento = new List<LugarEventoEjercicios>();
+
+        foreach (var ejerciciosEvento in newListado)
+        {
+            var ejercicioEvento = new LugarEventoEjercicios(){
+                Evento = ejerciciosEvento.First().NombreEvento,
+                EjerciciosLugarEvento = new List<TipoEjerciciosLugar>()
+            };
+
+            var agrupoPorLugar = ejerciciosEvento.GroupBy(e => e.NombreLugar);
+
+            foreach (var ejerciciosLugar in agrupoPorLugar)
+            {
+                var ejercicioLugar = new TipoEjerciciosLugar(){
+                    Lugar = ejerciciosLugar.First().NombreLugar,
+                    EjerciciosTipoLugar = new List<EjerciciosPorTipo>()
+                };
+
+                var agrupoPorTipoEjercicio = ejerciciosLugar.GroupBy(e => e.NombreTipoEjercicio);
+
+                foreach (var ejerciciosTipo in agrupoPorTipoEjercicio)
+                {
+                    var ejercicioTipo = new EjerciciosPorTipo(){
+                        Tipo = ejerciciosTipo.First().NombreTipoEjercicio,
+                        Ejercicios = ejerciciosTipo.ToList()
+                    };
+
+                    ejercicioLugar.EjerciciosTipoLugar.Add(ejercicioTipo);
+                }
+
+                ejercicioEvento.EjerciciosLugarEvento.Add(ejercicioLugar);
+            }
+
+            ejerciciosPorEvento.Add(ejercicioEvento);
+        }
+
+        return Json(ejerciciosPorEvento);
     }
 
     return Json(true);
