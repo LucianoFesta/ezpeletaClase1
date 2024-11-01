@@ -4,6 +4,13 @@ using ezpeletaNetCore8.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+// Config para que me tome los decimales en el peso y altura.
+var cultureInfo = new System.Globalization.CultureInfo("en-US");
+System.Globalization.CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
+
 // Add services to the container. Arma la cadena de conexion (appsetting.json)
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 

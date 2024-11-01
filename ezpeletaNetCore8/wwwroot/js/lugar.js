@@ -72,7 +72,7 @@ function listadoLugares(){
         type: 'GET',
         dataType: 'json',
         success: function(result){
-
+            console.log(result)
             if(result.success){
 
                 $.each(result.lista, function(index, lugar){

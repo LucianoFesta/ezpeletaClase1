@@ -9,8 +9,9 @@ namespace ezpeletaNetCore8.Models
         [Key]
         public int EjercicioFisicoID { get; set; }
         public int TipoEjercicioID { get; set; }
-        public int LugarID { get; set; }
+        public int? LugarID { get; set; }
         public int EventoDeportivoID { get; set; }
+        public int? PersonaID { get; set; }
         public DateTime Inicio { get; set; }
         public DateTime Fin { get; set; }
         [NotMapped]
@@ -21,6 +22,7 @@ namespace ezpeletaNetCore8.Models
         public virtual TipoEjercicio TipoEjercicio { get; set; }
         public virtual Lugar Lugar { get; set; }
         public virtual EventoDeportivo EventoDeportivo { get; set; }
+        public virtual Persona Persona { get; set; }
     }
 
     public class EjercicioFisicoMostrar{

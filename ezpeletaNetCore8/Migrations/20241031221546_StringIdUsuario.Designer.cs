@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ezpeletaNetCore8.Data;
 
@@ -11,9 +12,11 @@ using ezpeletaNetCore8.Data;
 namespace ezpeletaNetCore8.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241031221546_StringIdUsuario")]
+    partial class StringIdUsuario
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -323,7 +326,7 @@ namespace ezpeletaNetCore8.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PersonaID"));
 
                     b.Property<decimal>("Altura")
-                        .HasColumnType("decimal(4, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("datetime2");
@@ -336,7 +339,7 @@ namespace ezpeletaNetCore8.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Peso")
-                        .HasColumnType("decimal(5, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("UsuarioID")
                         .IsRequired()

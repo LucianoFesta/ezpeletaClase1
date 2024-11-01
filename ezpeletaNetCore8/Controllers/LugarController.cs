@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ezpeletaNetCore8.Models;
 using ezpeletaNetCore8.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace ezpeletaNetCore8.Controllers;
 
@@ -11,11 +12,15 @@ public class LugarController : Controller
     private readonly ILogger<LugarController> _logger;
         private ApplicationDbContext _context; //inicializamos el contexto
 
-    public LugarController(ILogger<LugarController> logger, ApplicationDbContext context)
+        private UserManager<IdentityUser> _userManager;
+
+    public LugarController(ILogger<LugarController> logger, ApplicationDbContext context, UserManager<IdentityUser> userManager)
     {
         _logger = logger;
 
         _context = context;
+
+        _userManager = userManager;
     }
 
     public IActionResult Index()
@@ -30,6 +35,8 @@ public class LugarController : Controller
     }
 
     public JsonResult SaveLugar(int lugarID, string lugar){
+        var userID = _userManager.GetUserId(User);
+        var persona = _context.Personas.Where(p => p.UsuarioID == userID).SingleOrDefault();
 
         var lugarExiste = _context.Lugares.Where(l => l.Nombre.ToLower() == lugar.ToLower()).Count();
 
@@ -49,7 +56,8 @@ public class LugarController : Controller
                 var newLugar = new Lugar
                 {
                     LugarID = lugarID,
-                    Nombre = lugar
+                    Nombre = lugar,
+                    PersonaID = persona.PersonaID
                 };
 
                 _context.Lugares.Add(newLugar);
@@ -72,11 +80,29 @@ public class LugarController : Controller
 
     public JsonResult ListadoLugares(int? idLugar)
     {
-        var listadoLugares = _context.Lugares.ToList();
+        var userID = _userManager.GetUserId(User);
+        var persona = _context.Personas.Where(p => p.UsuarioID == userID).SingleOrDefault();
+        
+        var listadoLugares = new List<Lugar>();
+
+        if(User.IsInRole("Deportista"))
+        {
+            listadoLugares = _context.Lugares
+                .Where(l => l.PersonaID == persona.PersonaID)
+                .ToList();
+        }else{
+            listadoLugares = _context.Lugares.ToList();
+        }
 
         if(listadoLugares.Count > 0)
         {
-            return Json(new { success = true, lista = listadoLugares });
+            var lugares = listadoLugares.Select(e => new Lugar(){
+                LugarID = e.LugarID,
+                Nombre = e.Nombre,
+                PersonaID = e.PersonaID
+            }).ToList();
+
+            return Json(new { success = true, lista = lugares });
         }
 
         return Json(false);

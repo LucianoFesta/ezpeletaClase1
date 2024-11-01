@@ -1,0 +1,78 @@
+@{
+    ViewData["Title"] = "Registrarse";
+}
+
+<link rel="stylesheet" href="~/css/register.css" asp-append-version="true" />
+
+<div class="col-8 divRegistrar animate__animated animate__fadeIn">
+    <form class="form-group">
+        
+        <!-- Nombre completo -->
+        <div class="mb-3">
+            <label for="nombreCompleto" class="form-label labelBuscador">Nombre completo:</label>
+            <input type="text" class="form-control" id="nombreCompleto" placeholder="Ingrese su nombre completo" required>
+            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="nombreError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingresar Nombre Completo</span>
+        </div>
+
+        <!-- Nombre completo -->
+        <div class="mb-3">
+            <label for="peso" class="form-label labelBuscador">Peso:</label>
+            <input type="number" step="0.001" class="form-control" id="peso" placeholder="80.0" required>
+            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="pesoError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingresar Nombre Completo</span>
+        </div>
+
+        <!-- Nombre completo -->
+        <div class="mb-3">
+            <label for="altura" class="form-label labelBuscador">Altura:</label>
+            <input type="number" step="0.001" class="form-control" id="altura" placeholder="1.80" required>
+            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="alturaError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingresar Nombre Completo</span>
+        </div>
+
+        <div class="mb-3 col-6">
+            <label for="genero" class="form-label">Genero</label>
+            @Html.DropDownList("Genero", null, htmlAttributes: new { @class = "form-control" })
+        </div>
+
+        <!-- Fecha de nacimiento -->
+        <div class="mb-3">
+            <label for="fechaNacimiento" class="form-label labelBuscador">Fecha de nacimiento:</label>
+            <input type="date" class="form-control" id="fechaNacimiento" required>
+            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="fechaNacimientoError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingresar fecha de Nacimiento</span>            
+            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="fechaNacimientoErrorFecha"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Debe ser mayor de 18 años.</span> 
+        </div>
+
+
+        <!-- Email -->
+        <div class="mb-3">
+            <label for="email" class="form-label labelBuscador">Correo Electrónico:</label>
+            <input type="email" class="form-control" id="email" placeholder="Ingrese su correo electrónico" required>
+            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="emailError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingresar email de reserva</span>
+        </div>
+            
+        <!-- Contraseña -->
+        <div class="mb-3">
+            <label for="password" class="form-label labelBuscador">Contraseña:</label>
+            <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña" required>
+            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="passwordError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingrese una contraseña</span>
+        </div>   
+        <!-- Confirmación de contraseña -->
+        <div class="mb-3">
+            <label for="confirmPassword" class="form-label labelBuscador">Confirmación de contraseña:</label>
+            <input type="password" class="form-control" id="confirmPassword" placeholder="Confirme su contraseña" required>
+            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="confirmPasswordError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Confirme su contraseña</span>
+            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="confirmPasswordSinPasswordError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingrese una contraseña primero</span>
+            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="passwordDiferente"><i class="fa-solid fa-circle-exclamation errorIcon"></i> La confirmación debe ser igual a la contraseña.</span>
+        </div>
+
+        
+        <!-- Submit button -->
+        <div class="d-flex justify-content-center mt-4 mb-2">
+            <button id="btnRegister" type="submit" class="buttonRegister">
+                <span class="button-content"><i class="fa-solid fa-address-card"></i> Registrarse </span>
+            </button>
+        </div>
+    </form>
+</div>
+
+
+<script src="~/js/register.js"></script>

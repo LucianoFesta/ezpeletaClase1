@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.AspNetCore.Identity;
 
 namespace ezpeletaNetCore8.Controllers;
 
@@ -12,11 +13,14 @@ namespace ezpeletaNetCore8.Controllers;
 public class EjercicioFisicoController : Controller
 {
     private ApplicationDbContext _context; //inicializamos el contexto
+    private readonly UserManager<IdentityUser> _userManager;
 
     //CONTRUCTOR de la clase para traer los datos del contexto (base de datos)
-    public EjercicioFisicoController(ApplicationDbContext context)
+    public EjercicioFisicoController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
     {
         _context = context;
+
+        _userManager = userManager;
     }
 
 
@@ -27,11 +31,28 @@ public class EjercicioFisicoController : Controller
 
 public JsonResult ListadoReporte(DateTime? Desde, DateTime? Hasta)
 {
-    var listado = _context.EjerciciosFisicos
-        .Include(e => e.TipoEjercicio)
-        .Include(e => e.Lugar)
-        .Include(e => e.EventoDeportivo)
-        .ToList();
+
+    var userID = _userManager.GetUserId(User);
+    var persona = _context.Personas.Where(p => p.UsuarioID == userID).SingleOrDefault();
+    var listado = new List<EjercicioFisico>();
+
+    if(User.IsInRole("Administrador"))
+    {
+        listado = _context.EjerciciosFisicos
+            .Include(e => e.TipoEjercicio)
+            .Include(e => e.Lugar)
+            .Include(e => e.EventoDeportivo)
+            .ToList();
+    }else
+    {
+        listado = _context.EjerciciosFisicos
+            .Include(e => e.TipoEjercicio)
+            .Include(e => e.Lugar)
+            .Include(e => e.EventoDeportivo)
+            .Where(e => e.PersonaID == persona.PersonaID)
+            .ToList();
+    }
+
 
     if (Desde != null && Hasta != null)
     {
@@ -105,6 +126,8 @@ public JsonResult ListadoReporte(DateTime? Desde, DateTime? Hasta)
 
     public IActionResult Index()
     {
+        var userID = _userManager.GetUserId(User);
+        var persona = _context.Personas.Where(p => p.UsuarioID == userID).SingleOrDefault();
 
         //Crear lista de selectListItem
         var selectListItem = new List<SelectListItem>
@@ -147,8 +170,18 @@ public JsonResult ListadoReporte(DateTime? Desde, DateTime? Hasta)
         //VIEWBAG PARA EL GRÁFICO
         var listadoTipoEjercicios = _context.TipoEjercicios.Where(t => t.Eliminado == false).ToList();
         ViewBag.TipoEjercicioIDGrafico = new SelectList(listadoTipoEjercicios.OrderBy(t => t.Nombre), "TipoEjercicioID", "Nombre");
-        
-        var listaLugares = _context.Lugares.ToList();
+
+        var listaLugares = new List<Lugar>();
+
+        if(User.IsInRole("Administrador"))
+        {
+            listaLugares = _context.Lugares.ToList();
+        }else
+        {
+            listaLugares = _context.Lugares
+                .Where(l => l.PersonaID == persona.PersonaID)
+                .ToList();
+        }
         listaLugares.Add(new Lugar(){
             LugarID = 0,
             Nombre = "[Seleccione...]"
@@ -169,9 +202,26 @@ public JsonResult ListadoReporte(DateTime? Desde, DateTime? Hasta)
     
     public JsonResult ListadoEjerciciosFisicos(int? id, DateTime? FechaDesdeBuscar, DateTime? FechaHastaBuscar, int? TipoEjercicioFisicoID)
     {
-        //Se carga el tipo de ejercicio relacionado
-        var ejerciciosFisicos = _context.EjerciciosFisicos.Include(e => e.TipoEjercicio).ToList();
-        ejerciciosFisicos = [.. _context.EjerciciosFisicos.Include(l => l.Lugar)];
+        var userID = _userManager.GetUserId(User);
+        var persona = _context.Personas.Where(p => p.UsuarioID == userID).SingleOrDefault();
+
+        var ejerciciosFisicos = new List<EjercicioFisico>();
+
+        if(User.IsInRole("Deportista"))
+        {
+            ejerciciosFisicos = _context.EjerciciosFisicos
+                .Include(e => e.TipoEjercicio)
+                .Include(e => e.Lugar)
+                .Include(e => e.Persona)
+                .Where(e => e.PersonaID == persona.PersonaID)
+                .ToList();
+        }else{
+            ejerciciosFisicos = _context.EjerciciosFisicos
+                .Include(e => e.TipoEjercicio)
+                .Include(e => e.Lugar)
+                .Include(e => e.Persona)
+                .ToList();
+        }
 
         if (id.HasValue){   
             ejerciciosFisicos = ejerciciosFisicos.Where(e => e.EjercicioFisicoID == id).ToList();
@@ -220,6 +270,9 @@ public JsonResult ListadoReporte(DateTime? Desde, DateTime? Hasta)
                 
                 }else{
 
+                var userID = _userManager.GetUserId(User);
+                var persona = _context.Personas.Where(p => p.UsuarioID == userID).SingleOrDefault();
+
                     var newEjercicio = new EjercicioFisico
                     {
                         TipoEjercicioID = tipoEjercicioID,
@@ -229,6 +282,7 @@ public JsonResult ListadoReporte(DateTime? Desde, DateTime? Hasta)
                         Fin = fin,
                         Observaciones = observaciones,
                         LugarID = lugar,
+                        PersonaID = persona.PersonaID,
                         EventoDeportivoID = evento
                     };
 
@@ -258,7 +312,6 @@ public JsonResult ListadoReporte(DateTime? Desde, DateTime? Hasta)
             }
         }
     }
-
 
     public JsonResult EliminarEjercicioFisico(int ejercicioFisicoID){
 
